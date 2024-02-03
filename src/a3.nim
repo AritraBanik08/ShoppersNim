@@ -146,8 +146,6 @@ import
   var
     email: string
     password: string
-    db2 = newDatabase2()
-    db3 = newDatabase3()
     db1 = newDatabase1()
 
     availableProducts = db1.availableProducts()
@@ -161,13 +159,7 @@ import
     password = ""
 
   if email != "" and password != "":
-    var
-      userId = db2.getUserId(email, password)
-      cart = db3.getUserCart(userId)
-      
-    for c, d in cart:
-      var product = db1.getProductById(d.productId)
-      products.add(product)
+    products = micsGetProducts(email, password)
 
   compileTemplateFile(getScriptDir() / "a3a" / "shop.nimja")
 
@@ -176,8 +168,6 @@ import
   var
     email: string
     password: string
-    db2 = newDatabase2()
-    db3 = newDatabase3()
     db1 = newDatabase1()
 
     productName = ctx.queryParams["prod"]
@@ -194,13 +184,7 @@ import
     password = ""
 
   if email != "" and password != "":
-    var
-      userId = db2.getUserId(email, password)
-      cart = db3.getUserCart(userId)
-      
-    for c, d in cart:
-      var product1 = db1.getProductById(d.productId)
-      products.add(product1)
+    products = micsGetProducts(email, password)
 
   compileTemplateFile(getScriptDir() / "a3a" / "shop-single.nimja")
 
