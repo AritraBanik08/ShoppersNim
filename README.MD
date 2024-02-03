@@ -25,6 +25,9 @@ Must have [Nim](https://nim-lang.org) version 2.0.2 or higher installed.
 - [times](https://nim-lang.org/docs/times.html)
 - [nimja](https://github.com/enthus1ast/nimja)
 
+## Setup
+
+### Setup Database
 Firstly you need to create the database using the following command
 ```
 nim c -r src/a3c/database_up.nim
