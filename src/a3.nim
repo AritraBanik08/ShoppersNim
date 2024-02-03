@@ -3,7 +3,7 @@ import
   segfaults,
   os,
   nimja/parser,
-  ./a3pkg/models,
+  ./a3pkg/[models, mics],
   ./a3c/[products, users, cart]
 
 "/" -> [get, post]:
@@ -11,6 +11,7 @@ import
   var
     email: string
     password: string
+    products: seq[Products]
 
   try:
     email = ctx.cookies["email"]
@@ -22,6 +23,7 @@ import
   if email == "":
     echo "No cookie found."
   else:
+    products = micsGetProducts(email, password)
     echo "Cookie found."
 
   compileTemplateFile(getScriptDir() / "a3a" / "index.nimja")
