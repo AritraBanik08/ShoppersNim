@@ -30,7 +30,9 @@
                 <li>
                   <a href="/cart" class="site-cart">
                     <span class="icon icon-shopping_cart"></span>
-                    <span class="count">2</span>
+                    {% if products.len > 0 %}
+                    <span class="count">{{products.len}}</span>
+                    {% endif %}
                   </a>
                 </li> 
                 <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>

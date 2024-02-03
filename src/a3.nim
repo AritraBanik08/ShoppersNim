@@ -189,6 +189,24 @@ import
   compileTemplateFile(getScriptDir() / "a3a" / "shop-single.nimja")
 
 "/thankyou" -> get:
+  var
+    email: string
+    password: string
+    products: seq[Products]
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    echo "No cookie found."
+  else:
+    products = micsGetProducts(email, password)
+    echo "Cookie found."
+    
   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
 
 "/login" -> get:
