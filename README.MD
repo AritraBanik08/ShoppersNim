@@ -6,7 +6,7 @@ This is the repository for my e-commerce project.
 
 Download links:
 
-SSH clone URL: ssh://git@bitbucket.org:ho004/4a1.git
+SSH clone URL: ssh://git@gitea.com:cereci5049/Shoppers.git
 
 HTTPS clone URL: https://MyAirPods2@bitbucket.org/ho004/4a1.git
 
