@@ -8,7 +8,7 @@ Download links:
 
 SSH clone URL: ssh://git@gitea.com:cereci5049/Shoppers.git
 
-HTTPS clone URL: https://MyAirPods2@bitbucket.org/ho004/4a1.git
+HTTPS clone URL: https://gitea.com/cereci5049/Shoppers.git
 
 
 
