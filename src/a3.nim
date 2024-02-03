@@ -29,6 +29,25 @@ import
   compileTemplateFile(getScriptDir() / "a3a" / "index.nimja")
 
 "/about" -> get:
+  
+  var
+    email: string
+    password: string
+    products: seq[Products]
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    echo "No cookie found."
+  else:
+    products = micsGetProducts(email, password)
+    echo "Cookie found."
+
   compileTemplateFile(getScriptDir() / "a3a" / "about.nimja")
 
 "/cart" -> get:
@@ -63,16 +82,91 @@ import
     compileTemplateFile(getScriptDir() / "a3a" / "cart.nimja")
 
 "/checkout" -> get:
+  
+  var
+    email: string
+    password: string
+    db2 = newDatabase2()
+    db3 = newDatabase3()
+    db1 = newDatabase1()
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    ctx.redirect("/login")
+
+  else:
+    var
+      userId = db2.getUserId(email, password)
+      cart = db3.getUserCart(userId)
+      products: seq[Products]
+      
+    for c, d in cart:
+      var product = db1.getProductById(d.productId)
+      products.add(product)
+
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/contact" -> get:
+  
+  var
+    email: string
+    password: string
+    db2 = newDatabase2()
+    db3 = newDatabase3()
+    db1 = newDatabase1()
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email != "" and password != "":
+    var
+      userId = db2.getUserId(email, password)
+      cart = db3.getUserCart(userId)
+      products: seq[Products]
+      
+    for c, d in cart:
+      var product = db1.getProductById(d.productId)
+      products.add(product)
+
   compileTemplateFile(getScriptDir() / "a3a" / "contact.nimja")
 
 "/shop" -> get:
+  
   var
+    email: string
+    password: string
+    db2 = newDatabase2()
+    db3 = newDatabase3()
     db1 = newDatabase1()
 
-    products = db1.availableProducts()
+    availableProducts = db1.availableProducts()
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email != "" and password != "":
+    var
+      userId = db2.getUserId(email, password)
+      cart = db3.getUserCart(userId)
+      products: seq[Products]
+      
+    for c, d in cart:
+      var product = db1.getProductById(d.productId)
+      products.add(product)
 
   compileTemplateFile(getScriptDir() / "a3a" / "shop.nimja")
 
