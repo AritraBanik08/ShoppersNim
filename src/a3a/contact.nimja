@@ -25,7 +25,20 @@
           <div class="col-6 col-md-4 order-3 order-md-3 text-right">
             <div class="site-top-icons">
               <ul>
-                <li><a href="#"><span class="icon icon-person"></span></a></li>
+                {% if email == "" %}
+                <li><a href="/login"><span class="icon icon-person"></span></a></li>
+                {% else %}
+                {# <li><a href=""><span class="icon icon-person"></span></a></li> #}
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="/admin" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="icon icon-person"></span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                  </div>
+                </li>
+                {% endif %}
                 <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                 <li>
                   <a href="/cart" class="site-cart">
