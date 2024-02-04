@@ -12,6 +12,7 @@ import
     email: string
     password: string
     products: seq[Products]
+  # echo ctx.cookies["email"]
 
   try:
     email = ctx.cookies["email"]
@@ -232,11 +233,13 @@ import
     loginError = ""
     emailError = ""
     passwordError = ""
+  echo user
 
   if user == true:
 
     ctx &= initCookie("email", email)
     ctx &= initCookie("password", password)
+    echo ctx.cookies
 
     ctx.redirect("/")
 
