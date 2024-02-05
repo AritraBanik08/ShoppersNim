@@ -4,19 +4,19 @@ import
 
 import ../a3pkg/models
 
-type
-  Database = ref object
-    db: DbConn
+# type
+#   Database = ref object
+#     db: DbConn
 
-proc newDatabase2*(filename = "db5.sqlite3"): Database =
-  new result
-  result.db = open(filename, "", "", "")
+# proc newDatabase2*(filename = "db5.sqlite3"): Database =
+#   new result
+#   result.db = open(filename, "", "", "")
 
-proc close*(database: Database) =
-  database.db.close()
+proc close*(db: DbConn) =
+  db.close()
 
-proc setupUsers*(database: Database) =
-    database.db.exec(sql"""
+proc setupUsers*(db: DbConn) =
+    db.exec(sql"""
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         first_name VARCHAR(255) NOT NULL,
@@ -29,21 +29,36 @@ proc setupUsers*(database: Database) =
       )
     """)
 
-proc createPost*(database: Database, user: User) =
-  database.db.exec(sql"INSERT INTO users (first_name, last_name, email, password, access_level) VALUES (?, ?, ?, ?, ?);", user.firstName, user.lastName, user.email, user.password, user.accessLevel)
+proc createPost*(db: DbConn, user: User) =
+  db.exec(sql"INSERT INTO users (first_name, last_name, email, password, access_level) VALUES (?, ?, ?, ?, ?);", user.firstName, user.lastName, user.email, user.password, user.accessLevel)
 
-proc drop*(database: Database) =
-  database.db.exec(sql"DROP TABLE IF EXISTS users")
+proc drop*(db: DbConn) =
+  db.exec(sql"DROP TABLE IF EXISTS users")
 
-proc userAvailability*(database: Database, user, password: string): bool =
-  var row = database.db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
+proc userAvailability*(db: DbConn, user, password: string): bool =
+  var row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
 
   if row[0] != "":
     return true
   else:
     return false
 
-proc getUserId*(database: Database, user, password: string): int =
-  var row = database.db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
+proc getUserId*(db: DbConn, user, password: string): int =
+  var row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
 
   result = parseInt(row[0])
+
+proc getUser*(db: DbConn, email, password: string): User =
+  var
+    row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", email, password)
+
+    user: User
+
+  user.id = parseInt(row[0])
+  user.firstName = row[1]
+  user.lastName = row[2]
+  user.email = row[3]
+  user.password = row[4]
+  user.accessLevel = parseInt(row[7])
+
+  return user

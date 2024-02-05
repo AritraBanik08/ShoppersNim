@@ -10,11 +10,11 @@ proc newDatabase1*(filename = "db5.sqlite3"): Database =
   new result
   result.db = open(filename, "", "", "")
 
-proc close*(database: Database) =
-  database.db.close()
+proc close*(db: DbConn) =
+  db.close()
 
-proc setupProducts*(database: Database) =
-    database.db.exec(sql"""
+proc setupProducts*(db: DbConn) =
+    db.exec(sql"""
       CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(255) NOT NULL,
@@ -29,18 +29,18 @@ proc setupProducts*(database: Database) =
       );
     """)
 
-proc setupProductsIndex*(database: Database) =
-  database.db.exec(sql"""
+proc setupProductsIndex*(db: DbConn) =
+  db.exec(sql"""
     CREATE UNIQUE INDEX IF NOT EXISTS products_name_idx ON products (name);
   """)
 
-proc createPost*(database: Database, product:Products): int64 =
-  var newID = database.db.insertID(sql"INSERT INTO products (name, description, type, Page_name, price, pic_URL, quantity) VALUES (?, ?, ?, ?, ?);",
+proc createPost*(db: DbConn, product:Products): int64 =
+  var newID = db.insertID(sql"INSERT INTO products (name, description, type, Page_name, price, pic_URL, quantity) VALUES (?, ?, ?, ?, ?);",
   product.name, product.description, product.productType, product.pageName, product.price, product.pic_URL, product.quantity)
   return newID
 
-proc availableProducts*(database: Database): seq[Products]=
-  var rows = database.db.getAllRows(sql"SELECT * FROM products WHERE quantity > 0")
+proc availableProducts*(db: DbConn): seq[Products]=
+  var rows = db.getAllRows(sql"SELECT * FROM products WHERE quantity > 0")
   var products: seq[Products]
   for a, b in rows:
     var product: Products
@@ -57,8 +57,8 @@ proc availableProducts*(database: Database): seq[Products]=
 
   return products
 
-proc getProduct*(database: Database, name: string): Products =
-  var row = database.db.getRow(sql"SELECT * FROM products WHERE name = ?", name)
+proc getProduct*(db: DbConn, name: string): Products =
+  var row = db.getRow(sql"SELECT * FROM products WHERE name = ?", name)
   var product: Products
   product.id = parseInt(row[0])
   product.name = row[1]
@@ -71,8 +71,8 @@ proc getProduct*(database: Database, name: string): Products =
 
   return product
 
-proc getProductById*(database: Database, id: int): Products =
-  var row = database.db.getRow(sql"SELECT * FROM products WHERE id = ?", id)
+proc getProductById*(db: DbConn, id: int): Products =
+  var row = db.getRow(sql"SELECT * FROM products WHERE id = ?", id)
   var product: Products
   product.id = parseInt(row[0])
   product.name = row[1]
@@ -85,5 +85,5 @@ proc getProductById*(database: Database, id: int): Products =
 
   return product
 
-proc drop*(database: Database) =
-  database.db.exec(sql"DROP TABLE IF EXISTS products")
+proc drop*(db: DbConn) =
+  db.exec(sql"DROP TABLE IF EXISTS products")

@@ -2,19 +2,19 @@ import db_connector/db_sqlite, strutils
 
 import ../a3pkg/models
 
-type
-  Database = ref object
-    db: DbConn
+# type
+#   Database = ref object
+#     db: DbConn
 
-proc newDatabase3*(filename = "db5.sqlite3"): Database =
-  new result
-  result.db = open(filename, "", "", "")
+# proc newDatabase3*(filename = "db5.sqlite3"): Database =
+#   new result
+#   result.db = open(filename, "", "", "")
 
-proc close*(database: Database) =
-  database.db.close()
+proc close*(db: DbConn) =
+  db.close()
 
-proc setupCart*(database: Database) =
-    database.db.exec(sql"""
+proc setupCart*(db: DbConn) =
+    db.exec(sql"""
       CREATE TABLE IF NOT EXISTS cart (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -25,15 +25,15 @@ proc setupCart*(database: Database) =
       )
     """)
 
-proc createPost*(database: Database, cart: Cart) =
-  database.db.exec(sql"INSERT INTO cart (?, ?, ?, ?, ?);", cart.userId, cart.productId, cart.quantity, cart.created_at, cart.updated_at)
+proc createPost*(db: DbConn, cart: Cart) =
+  db.exec(sql"INSERT INTO cart (?, ?, ?, ?, ?);", cart.userId, cart.productId, cart.quantity, cart.created_at, cart.updated_at)
 
-proc drop*(database: Database) =
-  database.db.exec(sql"DROP TABLE IF EXISTS cart")
+proc drop*(db: DbConn) =
+  db.exec(sql"DROP TABLE IF EXISTS cart")
 
-proc getUserCart*(database: Database, userId: int): seq[Cart] =
+proc getUserCart*(db: DbConn, userId: int): seq[Cart] =
   var
-    row = database.db.getAllRows(sql"SELECT * FROM cart WHERE user_id=?", userId)
+    row = db.getAllRows(sql"SELECT * FROM cart WHERE user_id=?", userId)
     cartDetails: seq[Cart]
 
   for b, c in row:

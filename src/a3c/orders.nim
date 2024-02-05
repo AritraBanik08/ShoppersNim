@@ -10,11 +10,11 @@ proc newDatabase4*(filename = "db5.sqlite3"): Database =
   new result
   result.db = open(filename, "", "", "")
 
-proc close*(database: Database) =
-  database.db.close()
+proc close*(db: DbConn) =
+  db.close()
 
-proc setupOrders*(database: Database) =
-    database.db.exec(sql"""
+proc setupOrders*(db: DbConn) =
+    db.exec(sql"""
       CREATE TABLE IF NOT EXISTS orders (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -27,10 +27,10 @@ proc setupOrders*(database: Database) =
       );
     """)
 
-proc createPost*(database: Database, order:Orders): int64 =
-  var newID = database.db.insertID(sql"INSERT INTO orders (user_id, product_id, quantity, order_status, order_date) VALUES (?, ?, ?, ?, ?);",
+proc createPost*(db: DbConn, order:Orders): int64 =
+  var newID = db.insertID(sql"INSERT INTO orders (user_id, product_id, quantity, order_status, order_date) VALUES (?, ?, ?, ?, ?);",
   order.userId, order.productId, order.quantity, order.orderStatus, order.orderDate)
   return newID
 
-proc drop*(database: Database) =
-  database.db.exec(sql"DROP TABLE IF EXISTS orders")
+proc drop*(db: DbConn) =
+  db.exec(sql"DROP TABLE IF EXISTS orders")

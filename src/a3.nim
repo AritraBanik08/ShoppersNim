@@ -12,7 +12,6 @@ import
     email: string
     password: string
     products: seq[Products]
-  # echo ctx.cookies["email"]
 
   try:
     email = ctx.cookies["email"]
@@ -56,9 +55,9 @@ import
   var
     email: string
     password: string
-    db2 = newDatabase2()
-    db3 = newDatabase3()
-    db1 = newDatabase1()
+    db = newDatabase()
+    # db3 = newDatabase3()
+    # db1 = newDatabase1()
 
   try:
     email = ctx.cookies["email"]
@@ -72,12 +71,12 @@ import
 
   else:
     var
-      userId = db2.getUserId(email, password)
-      cart = db3.getUserCart(userId)
+      userId = db.getUserId(email, password)
+      cart = db.getUserCart(userId)
       products: seq[Products]
       
     for c, d in cart:
-      var product = db1.getProductById(d.productId)
+      var product = db.getProductById(d.productId)
       products.add(product)
 
     compileTemplateFile(getScriptDir() / "a3a" / "cart.nimja")
@@ -87,9 +86,9 @@ import
   var
     email: string
     password: string
-    db2 = newDatabase2()
-    db3 = newDatabase3()
-    db1 = newDatabase1()
+    db = newDatabase()
+    # db3 = newDatabase3()
+    # db1 = newDatabase1()
 
   try:
     email = ctx.cookies["email"]
@@ -103,12 +102,12 @@ import
 
   else:
     var
-      userId = db2.getUserId(email, password)
-      cart = db3.getUserCart(userId)
+      userId = db.getUserId(email, password)
+      cart = db.getUserCart(userId)
       products: seq[Products]
       
     for c, d in cart:
-      var product = db1.getProductById(d.productId)
+      var product = db.getProductById(d.productId)
       products.add(product)
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
@@ -118,9 +117,9 @@ import
   var
     email: string
     password: string
-    db2 = newDatabase2()
-    db3 = newDatabase3()
-    db1 = newDatabase1()
+    db = newDatabase()
+    # db3 = newDatabase3()
+    # db1 = newDatabase1()
 
     products: seq[Products]
 
@@ -133,11 +132,11 @@ import
 
   if email != "" and password != "":
     var
-      userId = db2.getUserId(email, password)
-      cart = db3.getUserCart(userId)
+      userId = db.getUserId(email, password)
+      cart = db.getUserCart(userId)
       
     for c, d in cart:
-      var product = db1.getProductById(d.productId)
+      var product = db.getProductById(d.productId)
       products.add(product)
 
   compileTemplateFile(getScriptDir() / "a3a" / "contact.nimja")
@@ -147,9 +146,9 @@ import
   var
     email: string
     password: string
-    db1 = newDatabase1()
+    db = newDatabase()
 
-    availableProducts = db1.availableProducts()
+    availableProducts = db.availableProducts()
     products: seq[Products]
 
   try:
@@ -169,11 +168,11 @@ import
   var
     email: string
     password: string
-    db1 = newDatabase1()
+    db = newDatabase()
 
     productName = ctx.queryParams["prod"]
 
-    product = db1.getProduct(productName)
+    product = db.getProduct(productName)
 
     products: seq[Products]
 
@@ -226,9 +225,9 @@ import
     email = ctx.urlForm["email"]
     password = ctx.urlForm["password"]
 
-    db2 = newDatabase2()
+    db = newDatabase()
 
-    user = db2.userAvailability(email, password)
+    user = db.userAvailability(email, password)
 
     loginError = ""
     emailError = ""
@@ -281,7 +280,7 @@ import
   var
     form = ctx.urlForm
 
-    db2 = newDatabase2()
+    db = newDatabase()
     user: User
 
     firstNameError = ""
@@ -309,7 +308,7 @@ import
   if firstNameError == "" and lastNameError == "" and emailError == "" and passwordError == "":
     user.accessLevel = 1
 
-    db2.createPost(user)
+    db.createPost(user)
     ctx.redirect("/login")
 
   compileTemplateFile(getScriptDir() / "a3a" / "signup.nimja")
