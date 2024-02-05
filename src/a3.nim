@@ -56,8 +56,6 @@ import
     email: string
     password: string
     db = newDatabase()
-    # db3 = newDatabase3()
-    # db1 = newDatabase1()
 
   try:
     email = ctx.cookies["email"]
@@ -87,8 +85,6 @@ import
     email: string
     password: string
     db = newDatabase()
-    # db3 = newDatabase3()
-    # db1 = newDatabase1()
 
   try:
     email = ctx.cookies["email"]
@@ -118,8 +114,6 @@ import
     email: string
     password: string
     db = newDatabase()
-    # db3 = newDatabase3()
-    # db1 = newDatabase1()
 
     products: seq[Products]
 

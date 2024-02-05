@@ -2,14 +2,6 @@ import db_connector/db_sqlite
 
 import ../a3pkg/models
 
-type
-  Database = ref object
-    db: DbConn
-
-proc newDatabase4*(filename = "db5.sqlite3"): Database =
-  new result
-  result.db = open(filename, "", "", "")
-
 proc close*(db: DbConn) =
   db.close()
 
