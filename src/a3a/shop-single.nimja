@@ -99,14 +99,14 @@
             <div class="input-group-prepend">
               <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
             </div>
-            <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+            <input type="text" id="quantity" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
             <div class="input-group-append">
               <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
             </div>
           </div>
 
           </div>
-          <p><a href="/cart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+          <p><a href="#" class="buy-now btn btn-sm btn-primary" onclick="addToCart()">Add To Cart</a></p>
 
         </div>
       </div>
@@ -188,4 +188,12 @@
       </div>
     </div>
   </div>
+  <script>
+    function addToCart() {
+      var quantity = document.getElementById("quantity").value;
+      window.location.href = '/add-to-cart'
+        + '?prod={{productName}}&quantity='
+        + quantity;
+    }
+  </script>
 {% endblock %}

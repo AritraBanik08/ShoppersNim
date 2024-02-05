@@ -38,3 +38,6 @@ proc getUserCart*(db: DbConn, userId: int): seq[Cart] =
     cartDetails.add(product)
 
   return cartDetails
+
+proc addToCart*(db: DbConn, cart: Cart) =
+  db.exec(sql"INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)", cart.userId, cart.productId, cart.quantity)

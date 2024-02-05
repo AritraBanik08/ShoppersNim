@@ -49,7 +49,7 @@ proc availableProducts*(db: DbConn): seq[Products]=
 
   return products
 
-proc getProduct*(db: DbConn, name: string): Products =
+proc getProductByName*(db: DbConn, name: string): Products =
   var row = db.getRow(sql"SELECT * FROM products WHERE name = ?", name)
   var product: Products
   product.id = parseInt(row[0])
