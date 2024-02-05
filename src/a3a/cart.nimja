@@ -131,14 +131,14 @@
                       <div class="input-group-prepend">
                         <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                       </div>
-                      <input type="text" id="quantity" class="form-control text-center" value="{{cart[id].quantity}}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <input type="text" id="{{product.id}}_quantity" class="form-control text-center" value="{{cart[id].quantity}}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                       <div class="input-group-append">
                         <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                       </div>
                     </div>
 
                   </td>
-                  <td>₹{{product.price}}</td>
+                  <td>₹{{toFloat(cart[id].quantity)*product.price}}</td>
                   <td><a href="/remove-from-cart?prod={{product.name}}" class="btn btn-primary btn-sm">X</a></td>
                 </tr>
                 {% endfor %}
@@ -208,11 +208,6 @@
     </div>
   </div>
   <script>
-    function removeFromCart(productName) {
-      var quantity = document.getElementById("quantity").value;
-      window.location.href = '/remove-from-cart'
-        + '?prod='
-        + productName;
-    }
+    
   </script>
 {% endblock %}
