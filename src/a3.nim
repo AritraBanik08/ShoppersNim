@@ -3,6 +3,7 @@ import
   segfaults,
   os,
   nimja/parser,
+  strutils,
   ./a3pkg/[models, mics],
   ./a3c/[products, users, cart]
 
@@ -102,8 +103,40 @@ import
 
     cart.userId = db.getUserId(email, password)
     cart.productId = db.getProductByName(ctx.queryParams["prod"]).id
-      
+    cart.quantity = parseInt(ctx.queryParams["quantity"])
+
+    if cart.quantity == 0:
+      cart.quantity = 1
+        
     db.addToCart(cart)
+
+    ctx.redirect("/cart")
+
+"/remove-from-cart" -> get:
+  
+  var
+    email: string
+    password: string
+    db = newDatabase()
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    ctx.redirect("/login")
+
+  else:
+    var
+      cart: Cart
+
+    cart.userId = db.getUserId(email, password)
+    cart.productId = db.getProductByName(ctx.queryParams["prod"]).id
+      
+    db.removeFromCart(cart)
 
     ctx.redirect("/cart")
 

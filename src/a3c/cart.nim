@@ -40,4 +40,13 @@ proc getUserCart*(db: DbConn, userId: int): seq[Cart] =
   return cartDetails
 
 proc addToCart*(db: DbConn, cart: Cart) =
+  var cartDetails = getUserCart(db, cart.userId)
+  for d, f in cartDetails:
+    if f.userId == cart.userId and f.productId == cart.productId:
+      db.exec(sql"UPDATE cart SET quantity=? WHERE user_id=? AND product_id=?", f.quantity + cart.quantity, cart.userId, cart.productId)
+      return
+
   db.exec(sql"INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)", cart.userId, cart.productId, cart.quantity)
+
+proc removeFromCart*(db: DbConn, cart: Cart) =
+  db.exec(sql"DELETE FROM cart WHERE user_id=? AND product_id=?", cart.userId, cart.productId)

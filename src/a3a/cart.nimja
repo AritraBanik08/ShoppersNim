@@ -117,54 +117,6 @@
                 </tr>
               </thead>
               <tbody>
-                {# <tr>
-                  <td class="product-thumbnail">
-                    <img src="/a3b/images/cloth_1.jpg" alt="Image" class="img-fluid">
-                  </td>
-                  <td class="product-name">
-                    <h2 class="h5 text-black">Top Up T-Shirt</h2>
-                  </td>
-                  <td>$49.00</td>
-                  <td>
-                    <div class="input-group mb-3" style="max-width: 120px;">
-                      <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                      </div>
-                      <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                      </div>
-                    </div>
-
-                  </td>
-                  <td>$49.00</td>
-                  <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                </tr>
-
-                <tr>
-                  <td class="product-thumbnail">
-                    <img src="/a3b/images/cloth_2.jpg" alt="Image" class="img-fluid">
-                  </td>
-                  <td class="product-name">
-                    <h2 class="h5 text-black">Polo Shirt</h2>
-                  </td>
-                  <td>$49.00</td>
-                  <td>
-                    <div class="input-group mb-3" style="max-width: 120px;">
-                      <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                      </div>
-                      <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                      </div>
-                    </div>
-
-                  </td>
-                  <td>$49.00</td>
-                  <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                </tr> #}
-
                 {% for (id, product) in products.pairs() %}
                 <tr>
                   <td class="product-thumbnail">
@@ -179,7 +131,7 @@
                       <div class="input-group-prepend">
                         <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                       </div>
-                      <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <input type="text" id="quantity" class="form-control text-center" value="{{cart[id].quantity}}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                       <div class="input-group-append">
                         <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                       </div>
@@ -187,7 +139,7 @@
 
                   </td>
                   <td>₹{{product.price}}</td>
-                  <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                  <td><a href="/remove-from-cart?prod={{product.name}}" class="btn btn-primary btn-sm">X</a></td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -255,4 +207,12 @@
       </div>
     </div>
   </div>
+  <script>
+    function removeFromCart(productName) {
+      var quantity = document.getElementById("quantity").value;
+      window.location.href = '/remove-from-cart'
+        + '?prod='
+        + productName;
+    }
+  </script>
 {% endblock %}
