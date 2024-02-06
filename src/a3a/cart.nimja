@@ -179,7 +179,9 @@
                   <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                 </div>
               </div>
-              <div class="row mb-3">
+              {% var total = 0.0 %}
+              {% for (id, product) in products.pairs() %}
+              {# <div class="row mb-3">
                 <div class="col-md-6">
                   <span class="text-black">Subtotal</span>
                 </div>
@@ -193,6 +195,25 @@
                 </div>
                 <div class="col-md-6 text-right">
                   <strong class="text-black">$230.00</strong>
+                </div>
+              </div> #}
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <span class="text-black">{{product.name}}</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <strong class="text-black">₹{{toFloat(cart[id].quantity)*product.price}}</strong>
+                </div>
+              </div>
+              {% total = total + toFloat(cart[id].quantity)*product.price %}
+              {% endfor %}
+              <div class="row mb-5">
+                <div class="col-md-6">
+                  <span class="text-black">Total</span>
+                </div>
+                <div class="col-md-6 text-right">
+                  <strong class="text-black">₹{{total}}</strong>
                 </div>
               </div>
 
