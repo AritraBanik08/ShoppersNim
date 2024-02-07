@@ -4,6 +4,7 @@ import
   os,
   nimja/parser,
   strutils,
+  strformat,
   ./a3pkg/[models, mics],
   ./a3c/[products, users, cart]
 
@@ -79,6 +80,49 @@ import
       products.add(product)
 
     compileTemplateFile(getScriptDir() / "a3a" / "cart.nimja")
+
+"/update-cart" -> get:
+    
+  var
+    email: string
+    password: string
+    db = newDatabase()
+    products: seq[Products]
+    form = ctx.urlForm
+  echo form
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    ctx.redirect("/login")
+
+  else:
+    products = micsGetProducts(email, password)
+    var
+      userId = db.getUserId(email, password)
+      cart = db.getUserCart(userId)
+      cook = ctx.cookies
+
+    # echo cart
+    # echo cook
+    # db.updateCart(cook)
+
+    for d, e in cook:
+      if d.contains("_quantity") == true:
+        var h = d.split("_")
+        echo h
+        for i, j in cart:
+          # echo i
+          # echo j
+          if j.productId == parseInt(h[0]):
+            db.updateCart(e, j.id)
+
+    ctx.redirect("/cart")
 
 "/add-to-cart" -> get:
     

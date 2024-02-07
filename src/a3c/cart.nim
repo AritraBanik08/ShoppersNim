@@ -1,4 +1,4 @@
-import db_connector/db_sqlite, strutils
+import db_connector/db_sqlite, strutils, strtabs
 
 import ../a3pkg/models
 
@@ -50,3 +50,22 @@ proc addToCart*(db: DbConn, cart: Cart) =
 
 proc removeFromCart*(db: DbConn, cart: Cart) =
   db.exec(sql"DELETE FROM cart WHERE user_id=? AND product_id=?", cart.userId, cart.productId)
+
+proc updateCart*(db: DbConn, quantity: string, id: int) =
+  # echo id
+  # echo quantity
+  # echo userId
+  # echo db.getAllRows(sql"SELECT * FROM cart WHERE user_id=? AND product_id=?;", userId, parseInt(productId))
+  db.exec(sql"UPDATE cart SET quantity=? WHERE id=?", quantity, id)
+
+# proc updateCart*(db: DbConn, cookies: StringTableRef) =
+#   echo cookies
+
+#   for d, e in cookies:
+#     if d.contains("_quantity") == true:
+#       var h = d.split("_")
+#       echo h
+      
+#       db.exec(sql"UPDATE cart SET quantity=? WHERE id=?", e, h[0])
+#       echo parseInt(h[0])
+#       echo parseInt(e)
