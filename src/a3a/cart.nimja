@@ -155,7 +155,7 @@
               <button id="b2" class="btn btn-primary btn-sm btn-block">Update Cart</button>
             </div>
             <div class="col-md-6">
-              <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
+              <button class="btn btn-outline-primary btn-sm btn-block" onclick="continueShopping()">Continue Shopping</button>
             </div>
           </div>
           <div class="row">
@@ -220,6 +220,10 @@
       {% endfor %}
 
       window.location.href = '/update-cart';
+    }
+
+    function continueShopping() {
+      window.location.href = '/shop';
     }
   </script>
 {% endblock %}

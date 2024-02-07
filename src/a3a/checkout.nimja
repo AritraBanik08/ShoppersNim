@@ -268,7 +268,7 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    <tr>
+                    {# <tr>
                       <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
                       <td>$250.00</td>
                     </tr>
@@ -283,6 +283,23 @@
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
                       <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                    </tr> #}
+
+                    {% var total = 0.0 %}
+                    {% for (id, product) in products.pairs() %}
+                    <tr>
+                      <td>{{product.name}} <strong class="mx-2">x</strong> {{toFloat(cart[id].quantity)}}</td>
+                      <td>₹{{toFloat(cart[id].quantity)*product.price}}</td>
+                    </tr>
+                    {% total = total + toFloat(cart[id].quantity)*product.price %}
+                    {% endfor %}
+                    <tr>
+                      <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                      <td class="text-black">₹{{total}}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                      <td class="text-black font-weight-bold"><strong>₹{{total}}</strong></td>
                     </tr>
                   </tbody>
                 </table>

@@ -202,7 +202,7 @@ import
       var product = db.getProductById(d.productId)
       products.add(product)
 
-  compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+    compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/contact" -> get:
   
