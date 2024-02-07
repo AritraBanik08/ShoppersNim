@@ -88,8 +88,6 @@ import
     password: string
     db = newDatabase()
     products: seq[Products]
-    form = ctx.urlForm
-  echo form
 
   try:
     email = ctx.cookies["email"]
@@ -108,17 +106,10 @@ import
       cart = db.getUserCart(userId)
       cook = ctx.cookies
 
-    # echo cart
-    # echo cook
-    # db.updateCart(cook)
-
     for d, e in cook:
       if d.contains("_quantity") == true:
         var h = d.split("_")
-        echo h
         for i, j in cart:
-          # echo i
-          # echo j
           if j.productId == parseInt(h[0]):
             db.updateCart(e, j.id)
 
