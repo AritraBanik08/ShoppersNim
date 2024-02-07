@@ -214,27 +214,12 @@
   </div>
   <script>
     document.getElementById("b2").onclick = function() {
-      const form = document.getElementById('f1');
-      const formData = new FormData(form);
 
       {% for (id, product) in products.pairs() %}
-      formData.append("{{product.id}}_quantity", document.getElementById("{{product.id}}_quantity").value);
       document.cookie = "{{product.id}}_quantity="+document.getElementById("{{product.id}}_quantity").value;
       {% endfor %}
 
-      {# document.getElementById("f1").submit(); #}
-
-      fetch('/update-cart', {
-        method: 'POST',
-        body: formData
-      })
-      {# location.reload(); #}
       window.location.href = '/update-cart';
-      {# document.getElementById("f1").submit(); #}
-        {# .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        }) #}
     }
   </script>
 {% endblock %}
