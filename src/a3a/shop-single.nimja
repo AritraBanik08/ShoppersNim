@@ -106,7 +106,11 @@
           </div>
 
           </div>
+          {% if email != "" %}
           <p><a href="#" class="buy-now btn btn-sm btn-primary" onclick="addToCart()">Add To Cart</a></p>
+          {% else %}
+          <p><a href="#" class="buy-now btn btn-sm btn-primary" onclick="checkOut()">Check Out</a></p>
+          {% endif %}
 
         </div>
       </div>
@@ -192,6 +196,13 @@
     function addToCart() {
       var quantity = document.getElementById("quantity").value;
       window.location.href = '/add-to-cart'
+        + '?prod={{productName}}&quantity='
+        + quantity;
+    }
+
+    function checkOut() {
+      var quantity = document.getElementById("quantity").value;
+      window.location.href = '/checkout'
         + '?prod={{productName}}&quantity='
         + quantity;
     }

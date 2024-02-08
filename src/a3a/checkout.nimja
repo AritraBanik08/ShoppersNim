@@ -68,7 +68,7 @@
       <div class="row mb-5">
         <div class="col-md-12">
           <div class="border p-4 rounded" role="alert">
-            Returning customer? <a href="#">Click here</a> to login
+            Returning customer? <a href="/login">Click here</a> to login
           </div>
         </div>
       </div>
@@ -88,6 +88,7 @@
                 <option value="7">Bahrain</option>    
                 <option value="8">Colombia</option>    
                 <option value="9">Dominican Republic</option>    
+                <option value="10">India</option>
               </select>
             </div>
             <div class="form-group row">
@@ -171,7 +172,8 @@
                       <option value="6">Albania</option>    
                       <option value="7">Bahrain</option>    
                       <option value="8">Colombia</option>    
-                      <option value="9">Dominican Republic</option>    
+                      <option value="9">Dominican Republic</option>
+                      <option value="10">India</option>    
                     </select>
                   </div>
 
@@ -268,24 +270,14 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    {# <tr>
-                      <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                      <td>$250.00</td>
-                    </tr>
-                    <tr>
-                      <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                      <td>$100.00</td>
-                    </tr>
-                    <tr>
-                      <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                      <td class="text-black">$350.00</td>
-                    </tr>
-                    <tr>
-                      <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                      <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
-                    </tr> #}
-
                     {% var total = 0.0 %}
+                    {% if email == "" %}
+                    <tr>
+                      <td>{{productName}} <strong class="mx-2">x</strong> {{quantity}}</td>
+                      <td>₹{{toFloat(quantity)*price}}</td>
+                      {% total = total + toFloat(quantity)*price %}
+                    </tr>
+                    {% else %}
                     {% for (id, product) in products.pairs() %}
                     <tr>
                       <td>{{product.name}} <strong class="mx-2">x</strong> {{toFloat(cart[id].quantity)}}</td>
@@ -293,6 +285,7 @@
                     </tr>
                     {% total = total + toFloat(cart[id].quantity)*product.price %}
                     {% endfor %}
+                    {% endif %}
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
                       <td class="text-black">₹{{total}}</td>

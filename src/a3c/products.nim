@@ -79,3 +79,7 @@ proc getProductById*(db: DbConn, id: int): Products =
 
 proc drop*(db: DbConn) =
   db.exec(sql"DROP TABLE IF EXISTS products")
+
+proc getPriceByProductName*(db: DbConn, name: string): float =
+  var row = db.getRow(sql"SELECT price FROM products WHERE name = ?", name)
+  return parseFloat(row[0])
