@@ -28,6 +28,7 @@ proc drop*(db: DbConn) =
   db.exec(sql"DROP TABLE IF EXISTS users")
 
 proc userAvailability*(db: DbConn, user, password: string): bool =
+  ## Check if user exists in db
   var row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
 
   if row[0] != "":
@@ -36,11 +37,13 @@ proc userAvailability*(db: DbConn, user, password: string): bool =
     return false
 
 proc getUserId*(db: DbConn, user, password: string): int =
+  ## Get user id from db
   var row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", user, password)
 
   result = parseInt(row[0])
 
 proc getUser*(db: DbConn, email, password: string): User =
+  ## Get user from db
   var
     row = db.getRow(sql"SELECT * FROM users WHERE email = ? and password = ?;", email, password)
 

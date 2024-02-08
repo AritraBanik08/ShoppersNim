@@ -27,11 +27,13 @@ proc setupProductsIndex*(db: DbConn) =
   """)
 
 proc createPost*(db: DbConn, product:Products): int64 =
+  ## createPost creates a new product and returns its id
   var newID = db.insertID(sql"INSERT INTO products (name, description, type, Page_name, price, pic_URL, quantity) VALUES (?, ?, ?, ?, ?);",
   product.name, product.description, product.productType, product.pageName, product.price, product.pic_URL, product.quantity)
   return newID
 
 proc availableProducts*(db: DbConn): seq[Products]=
+  ## availableProducts returns all products with quantity > 0
   var rows = db.getAllRows(sql"SELECT * FROM products WHERE quantity > 0")
   var products: seq[Products]
   for a, b in rows:
@@ -50,6 +52,7 @@ proc availableProducts*(db: DbConn): seq[Products]=
   return products
 
 proc getProductByName*(db: DbConn, name: string): Products =
+  ## getProductByName returns a product by its name
   var row = db.getRow(sql"SELECT * FROM products WHERE name = ?", name)
   var product: Products
   product.id = parseInt(row[0])
@@ -64,6 +67,7 @@ proc getProductByName*(db: DbConn, name: string): Products =
   return product
 
 proc getProductById*(db: DbConn, id: int): Products =
+  ## getProductById returns a product by its id
   var row = db.getRow(sql"SELECT * FROM products WHERE id = ?", id)
   var product: Products
   product.id = parseInt(row[0])
@@ -81,5 +85,6 @@ proc drop*(db: DbConn) =
   db.exec(sql"DROP TABLE IF EXISTS products")
 
 proc getPriceByProductName*(db: DbConn, name: string): float =
+  ## getPriceByProductName returns the price of a product by its name
   var row = db.getRow(sql"SELECT price FROM products WHERE name = ?", name)
   return parseFloat(row[0])

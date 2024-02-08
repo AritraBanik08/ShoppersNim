@@ -24,6 +24,7 @@ proc drop*(db: DbConn) =
   db.exec(sql"DROP TABLE IF EXISTS cart")
 
 proc getUserCart*(db: DbConn, userId: int): seq[Cart] =
+  ## get the cart details of the user
   var
     row = db.getAllRows(sql"SELECT * FROM cart WHERE user_id=?", userId)
     cartDetails: seq[Cart]
@@ -40,6 +41,7 @@ proc getUserCart*(db: DbConn, userId: int): seq[Cart] =
   return cartDetails
 
 proc addToCart*(db: DbConn, cart: Cart) =
+  ## add the product to the cart
   var cartDetails = getUserCart(db, cart.userId)
   for d, f in cartDetails:
     if f.userId == cart.userId and f.productId == cart.productId:
@@ -49,7 +51,9 @@ proc addToCart*(db: DbConn, cart: Cart) =
   db.exec(sql"INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)", cart.userId, cart.productId, cart.quantity)
 
 proc removeFromCart*(db: DbConn, cart: Cart) =
+  ## remove the product from the cart
   db.exec(sql"DELETE FROM cart WHERE user_id=? AND product_id=?", cart.userId, cart.productId)
 
 proc updateCart*(db: DbConn, quantity: string, id: int) =
+  ## update the quantity of the product in the cart
   db.exec(sql"UPDATE cart SET quantity=? WHERE id=?", quantity, id)
