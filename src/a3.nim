@@ -26,7 +26,6 @@ import
     echo "No cookie found."
   else:
     products = micsGetProducts(email, password)
-    echo "Cookie found."
 
   compileTemplateFile(getScriptDir() / "a3a" / "index.nimja")
 
@@ -336,13 +335,11 @@ import
     loginError = ""
     emailError = ""
     passwordError = ""
-  echo user
 
   if user == true:
 
     ctx &= initCookie("email", email)
     ctx &= initCookie("password", password)
-    echo ctx.cookies
 
     ctx.redirect("/")
 

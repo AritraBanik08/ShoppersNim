@@ -38,6 +38,11 @@ type
     ## Orders is the orders model
     id*: int
     userId*: int
+    country*: string
+    address*: string
+    state*: string
+    postalCode*: string
+    phoneNumber*: string
     productId*: int
     quantity*: int
     createdAt*: DateTime
