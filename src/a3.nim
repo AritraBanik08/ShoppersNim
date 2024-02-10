@@ -193,20 +193,19 @@ import
     email = ""
     password = ""
 
-  if email == "":
-    try:
-      productName = ctx.queryParams["prod"]
-      quantity = parseInt(ctx.queryParams["quantity"])
-    except:
-      productName = ""
-      quantity = 0
+  try:
+    productName = ctx.queryParams["prod"]
+    quantity = parseInt(ctx.queryParams["quantity"])
+  except:
+    productName = ""
+    quantity = 0
 
-    if productName == "":
-      ctx.redirect("/login")
+  if productName == "":
+    ctx.redirect("/login")
 
-    price = db.getPriceByProductName(productName)
+  price = db.getPriceByProductName(productName)
 
-  else:
+  if email != "":
     var
       userId = db.getUserId(email, password)
     cart = db.getUserCart(userId)
@@ -227,6 +226,7 @@ import
     cart: seq[Cart]
     products: seq[Products]
     price = 0.0
+    # cookies = ctx.cookies
 
   try:
     email = ctx.cookies["email"]
@@ -247,6 +247,16 @@ import
       ctx.redirect("/login")
 
     price = db.getPriceByProductName(productName)
+
+    # var
+    #   country = cookies["c_country"]
+    #   firstName = cookies["c_fname"]
+    #   lastName = cookies["c_lname"]
+    #   address = cookies["c_address"]
+    #   state = cookies["c_state_country"]
+    #   zip = cookies["c_postal_zip"]
+    #   email = cookies["c_email_address"]
+    #   phone = cookies["c_phone"]
 
   else:
     var
@@ -378,12 +388,20 @@ import
     emailError = ""
     passwordError = ""
 
+    productName = ctx.queryParams["prod"]
+    quantity = parseInt(ctx.queryParams["quantity"])
+
   if user == true:
 
     ctx &= initCookie("email", email)
     ctx &= initCookie("password", password)
 
-    ctx.redirect("/")
+    if quantity != 0:
+      ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
+      # ctx.redirect(fmt"/checkout?prod={productName}&quantity={quantity}")
+    else:
+
+      ctx.redirect("/")
 
   else:
 

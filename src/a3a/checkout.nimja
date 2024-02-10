@@ -73,7 +73,7 @@
       <div class="row mb-5">
         <div class="col-md-12">
           <div class="border p-4 rounded" role="alert">
-            Returning customer? <a href="/login">Click here</a> to login
+            Returning customer? <a href="/login?prod={{productName}}&quantity={{quantity}}" onclick="login()">Click here</a> to login
           </div>
         </div>
       </div>
@@ -276,7 +276,7 @@
                   </thead>
                   <tbody>
                     {% var total = 0.0 %}
-                    {% if email == "" %}
+                    {% if productName != "" %}
                     <tr>
                       <td>{{productName}} <strong class="mx-2">x</strong> {{quantity}}</td>
                       <td>₹{{toFloat(quantity)*price}}</td>
@@ -333,7 +333,7 @@
                 </div>
 
                 <div class="form-group">
-                  <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='/thankyou'">Place Order</button>
+                  <button class="btn btn-primary btn-lg py-3 btn-block" id="b3">Place Order</button>
                 </div>
 
               </div>
@@ -345,4 +345,33 @@
       <!-- </form> -->
     </div>
   </div>
+  <script>
+    document.getElementById("b3").onclick = function() {
+
+      document.cookie = "c_country="+document.getElementById("c_country").value;
+      document.cookie = "c_fname="+document.getElementById("c_fname").value;
+      document.cookie = "c_lname="+document.getElementById("c_lname").value;
+      document.cookie = "c_address="+document.getElementById("c_address").value;
+      document.cookie = "c_state_country="+document.getElementById("c_state_country").value;
+      document.cookie = "c_postal_zip="+document.getElementById("c_postal_zip").value;
+      document.cookie = "c_email_address="+document.getElementById("c_email_address").value;
+      document.cookie = "c_phone="+document.getElementById("c_phone").value;
+      if (document.getElementById("c_create_account").checked) {
+        document.cookie = "c_create_account="+document.getElementById("c_create_account").value;
+      }
+
+      window.location.href = '/thankyou';
+    }
+
+    function continueShopping() {
+      window.location.href = '/shop';
+    }
+
+    {# function login() {
+      var quantity = document.getElementById("quantity").value;
+      window.location.href = '/login'
+        + '?prod={{productName}}&quantity='
+        + quantity;
+    } #}
+  </script>
 {% endblock %}
