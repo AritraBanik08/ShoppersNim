@@ -217,6 +217,48 @@ import
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
+"/checkout" -> post:
+  var
+    email: string
+    password: string
+    db = newDatabase()
+    productName= ""
+    quantity = 0
+    cart: seq[Cart]
+    products: seq[Products]
+    price = 0.0
+
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
+
+  if email == "":
+    try:
+      productName = ctx.queryParams["prod"]
+      quantity = parseInt(ctx.queryParams["quantity"])
+    except:
+      productName = ""
+      quantity = 0
+
+    if productName == "":
+      ctx.redirect("/login")
+
+    price = db.getPriceByProductName(productName)
+
+  else:
+    var
+      userId = db.getUserId(email, password)
+    cart = db.getUserCart(userId)
+      
+    for c, d in cart:
+      var product = db.getProductById(d.productId)
+      products.add(product)
+
+  compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+
 "/contact" -> get:
   
   var
