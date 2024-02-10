@@ -2,7 +2,7 @@
 
 version       = "0.1.0"
 author        = "Ikigai3"
-description   = "A new awesome nimble package"
+description   = "A new awesome E-Commerce website with a fully functional admin panel."
 license       = "Apache-2.0"
 srcDir        = "src"
 installExt    = @["nim"]

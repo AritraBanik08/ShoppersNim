@@ -32,8 +32,8 @@
                     <span class="icon icon-shopping_cart"></span>
                     {# <span class="count">2</span> #}
                     {% if email != "" %}
-                      {% if products.len > 0 %}
-                      <span class="count">{{products.len}}</span>
+                      {% if productCount > 0 %}
+                      <span class="count">{{productCount}}</span>
                       {% endif %}
                     {% endif %}
                   </a>
@@ -275,14 +275,7 @@
                     <th>Total</th>
                   </thead>
                   <tbody>
-                    {% var total = 0.0 %}
-                    {% if productName != "" %}
-                    <tr>
-                      <td>{{productName}} <strong class="mx-2">x</strong> {{quantity}}</td>
-                      <td>₹{{toFloat(quantity)*price}}</td>
-                      {% total = total + toFloat(quantity)*price %}
-                    </tr>
-                    {% else %}
+                    {% var total: float = 0.0 %}
                     {% for (id, product) in products.pairs() %}
                     <tr>
                       <td>{{product.name}} <strong class="mx-2">x</strong> {{toFloat(cart[id].quantity)}}</td>
@@ -290,7 +283,6 @@
                     </tr>
                     {% total = total + toFloat(cart[id].quantity)*product.price %}
                     {% endfor %}
-                    {% endif %}
                     <tr>
                       <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
                       <td class="text-black">₹{{total}}</td>

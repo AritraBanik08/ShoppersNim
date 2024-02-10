@@ -174,7 +174,7 @@ import
 
     ctx.redirect("/cart")
 
-"/checkout" -> get:
+"/checkout" -> [get, post]:
   
   var
     email: string
@@ -184,7 +184,7 @@ import
     quantity = 0
     cart: seq[Cart]
     products: seq[Products]
-    price = 0.0
+    productCount = 0
 
   try:
     email = ctx.cookies["email"]
@@ -200,63 +200,23 @@ import
     productName = ""
     quantity = 0
 
-  if productName == "":
+  if email != "":
+    productCount = micsCartProductCount(email, password)
+
+  if productName == "" and email == "":
     ctx.redirect("/login")
 
-  price = db.getPriceByProductName(productName)
-
-  if email != "":
+  elif productName != "":
     var
-      userId = db.getUserId(email, password)
-    cart = db.getUserCart(userId)
-      
-    for c, d in cart:
-      var product = db.getProductById(d.productId)
-      products.add(product)
+      product: Products
+      ca: Cart
 
-  compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
-
-"/checkout" -> post:
-  var
-    email: string
-    password: string
-    db = newDatabase()
-    productName= ""
-    quantity = 0
-    cart: seq[Cart]
-    products: seq[Products]
-    price = 0.0
-    # cookies = ctx.cookies
-
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
-
-  if email == "":
-    try:
-      productName = ctx.queryParams["prod"]
-      quantity = parseInt(ctx.queryParams["quantity"])
-    except:
-      productName = ""
-      quantity = 0
-
-    if productName == "":
-      ctx.redirect("/login")
-
-    price = db.getPriceByProductName(productName)
-
-    # var
-    #   country = cookies["c_country"]
-    #   firstName = cookies["c_fname"]
-    #   lastName = cookies["c_lname"]
-    #   address = cookies["c_address"]
-    #   state = cookies["c_state_country"]
-    #   zip = cookies["c_postal_zip"]
-    #   email = cookies["c_email_address"]
-    #   phone = cookies["c_phone"]
+    product.id = 1
+    product.name = productName
+    product.price = db.getPriceByProductName(productName)
+    ca.quantity = quantity
+    products.add(product)
+    cart.add(ca)
 
   else:
     var
@@ -265,9 +225,63 @@ import
       
     for c, d in cart:
       var product = db.getProductById(d.productId)
+      echo product
       products.add(product)
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+
+# "/checkout" -> post:
+#   var
+#     email: string
+#     password: string
+#     db = newDatabase()
+#     productName= ""
+#     quantity = 0
+#     cart: seq[Cart]
+#     products: seq[Products]
+#     price = 0.0
+#     # cookies = ctx.cookies
+
+#   try:
+#     email = ctx.cookies["email"]
+#     password = ctx.cookies["password"]
+#   except:
+#     email = ""
+#     password = ""
+
+#   if email == "":
+#     try:
+#       productName = ctx.queryParams["prod"]
+#       quantity = parseInt(ctx.queryParams["quantity"])
+#     except:
+#       productName = ""
+#       quantity = 0
+
+#     if productName == "":
+#       ctx.redirect("/login")
+
+#     price = db.getPriceByProductName(productName)
+
+#     # var
+#     #   country = cookies["c_country"]
+#     #   firstName = cookies["c_fname"]
+#     #   lastName = cookies["c_lname"]
+#     #   address = cookies["c_address"]
+#     #   state = cookies["c_state_country"]
+#     #   zip = cookies["c_postal_zip"]
+#     #   email = cookies["c_email_address"]
+#     #   phone = cookies["c_phone"]
+
+#   else:
+#     var
+#       userId = db.getUserId(email, password)
+#     cart = db.getUserCart(userId)
+      
+#     for c, d in cart:
+#       var product = db.getProductById(d.productId)
+#       products.add(product)
+
+#   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/contact" -> get:
   
@@ -388,8 +402,16 @@ import
     emailError = ""
     passwordError = ""
 
+    productName: string
+    quantity: int
+
+  try:
     productName = ctx.queryParams["prod"]
     quantity = parseInt(ctx.queryParams["quantity"])
+
+  except:
+      productName = ""
+      quantity = 0
 
   if user == true:
 
