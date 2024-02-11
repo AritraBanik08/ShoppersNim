@@ -174,7 +174,7 @@ import
 
     ctx.redirect("/cart")
 
-"/checkout" -> [get, post]:
+"/checkout" -> get:
   
   var
     email: string
@@ -185,6 +185,14 @@ import
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
+    countryError = ""
+    firstNameError = ""
+    lastNameError = ""
+    addressError = ""
+    stateError = ""
+    zipError = ""
+    emailError = ""
+    phoneError = ""
 
   try:
     email = ctx.cookies["email"]
@@ -230,58 +238,124 @@ import
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
-# "/checkout" -> post:
-#   var
-#     email: string
-#     password: string
-#     db = newDatabase()
-#     productName= ""
-#     quantity = 0
-#     cart: seq[Cart]
-#     products: seq[Products]
-#     price = 0.0
-#     # cookies = ctx.cookies
+"/checkout" -> post:
+  var
+    email: string
+    password: string
+    db = newDatabase()
+    productName= ""
+    quantity = 0
+    cart: seq[Cart]
+    products: seq[Products]
+    productCount = 0
+    cookies = ctx.cookies
+    countryError = ""
+    firstNameError = ""
+    lastNameError = ""
+    addressError = ""
+    stateError = ""
+    zipError = ""
+    emailError = ""
+    phoneError = ""
 
-#   try:
-#     email = ctx.cookies["email"]
-#     password = ctx.cookies["password"]
-#   except:
-#     email = ""
-#     password = ""
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
 
-#   if email == "":
-#     try:
-#       productName = ctx.queryParams["prod"]
-#       quantity = parseInt(ctx.queryParams["quantity"])
-#     except:
-#       productName = ""
-#       quantity = 0
+  try:
+    productName = ctx.queryParams["prod"]
+    quantity = parseInt(ctx.queryParams["quantity"])
+  except:
+    productName = ""
+    quantity = 0
 
-#     if productName == "":
-#       ctx.redirect("/login")
+  if email != "":
+    productCount = micsCartProductCount(email, password)
 
-#     price = db.getPriceByProductName(productName)
+  # if productName == "" and email == "":
+    # ctx.redirect("/login")
 
-#     # var
-#     #   country = cookies["c_country"]
-#     #   firstName = cookies["c_fname"]
-#     #   lastName = cookies["c_lname"]
-#     #   address = cookies["c_address"]
-#     #   state = cookies["c_state_country"]
-#     #   zip = cookies["c_postal_zip"]
-#     #   email = cookies["c_email_address"]
-#     #   phone = cookies["c_phone"]
+  var
+    country = cookies["c_country"]
+    firstName = cookies["c_fname"]
+    lastName = cookies["c_lname"]
+    address = cookies["c_address"]
+    state = cookies["c_state_country"]
+    zip = cookies["c_postal_zip"]
+    email1 = cookies["c_email_address"]
+    phone = cookies["c_phone"]
 
-#   else:
-#     var
-#       userId = db.getUserId(email, password)
-#     cart = db.getUserCart(userId)
+  if country == "": countryError = "Country is Required"
+
+  if firstName == "": firstNameError = "First Name is Required"
+
+  if lastName == "": lastNameError = "Last Name is Required"
+
+  if address == "": addressError = "Address is Required"
+
+  if state == "": stateError = "State is Required"
+
+  if zip == "": zipError = "Zip is Required"
+
+  if email1 == "": emailError = "Email is Required"
+
+  if phone == "": phoneError = "Phone is Required"
+
+  # if countryError == "" and firstNameError == "" and lastNameError == "" and addressError == "" and stateError == "" and zipError == "" and emailError == "" and phoneError == "":
+  #   var
+  #     userId = db.getUserId(email, password)
+  #     cart = db.getUserCart(userId)
+  #     order: Order
+
+  #   order.userId = userId
+  #   order.country = country
+  #   order.firstName = firstName
+  #   order.lastName = lastName
+  #   order.address = address
+  #   order.state = state
+  #   order.zip = zip
+  #   order.email = email1
+  #   order.phone = phone
+
+  #   db.createOrder(order)
+
+  #   for c, d in cart:
+  #     var product = db.getProductById(d.productId)
+  #     products.add(product)
+
+  #   db.clearCart(userId)
+
+  #   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
+
+  # else:
+  #   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+
+  if productName != "":
+    var
+      product: Products
+      ca: Cart
+
+    product.id = 1
+    product.name = productName
+    product.price = db.getPriceByProductName(productName)
+    ca.quantity = quantity
+    products.add(product)
+    cart.add(ca)
+
+  else:
+    var
+      userId = db.getUserId(email, password)
+    cart = db.getUserCart(userId)
       
-#     for c, d in cart:
-#       var product = db.getProductById(d.productId)
-#       products.add(product)
+    for c, d in cart:
+      var product = db.getProductById(d.productId)
+      echo product
+      products.add(product)
 
-#   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+  compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/contact" -> get:
   
