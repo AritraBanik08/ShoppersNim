@@ -57,3 +57,7 @@ proc removeFromCart*(db: DbConn, cart: Cart) =
 proc updateCart*(db: DbConn, quantity: string, id: int) =
   ## update the quantity of the product in the cart
   db.exec(sql"UPDATE cart SET quantity=? WHERE id=?", quantity, id)
+
+proc clearCart*(db: DbConn, userId: int) =
+  ## clear the cart of the user
+  db.exec(sql"DELETE FROM cart WHERE user_id=?", userId)

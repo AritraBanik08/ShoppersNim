@@ -25,7 +25,7 @@ proc setupOrders*(db: DbConn) =
       );
     """)
 
-proc createPost*(db: DbConn, order:Orders): int64 =
+proc createOrder*(db: DbConn, order:Orders): int64 =
   ## createPost creates a new post and returns the id of the new post
   result = db.insertID(sql"INSERT INTO orders (user_id, country, address, state, postal_code, phone_number, product_id, quantity, order_status, order_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", order.userId, order.country, order.address, order.state, order.postalCode, order.phoneNumber, order.productId, order.quantity, order.orderStatus, order.orderDate)
 

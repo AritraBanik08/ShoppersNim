@@ -6,7 +6,7 @@ import
   strutils,
   strformat,
   ./a3pkg/[models, mics],
-  ./a3c/[products, users, cart]
+  ./a3c/[products, users, cart, orders]
 
 "/" -> [get, post]:
 
@@ -193,6 +193,7 @@ import
     zipError = ""
     emailError = ""
     phoneError = ""
+    ch = ""
 
   try:
     email = ctx.cookies["email"]
@@ -225,6 +226,7 @@ import
     ca.quantity = quantity
     products.add(product)
     cart.add(ca)
+    ch = "d"
 
   else:
     var
@@ -257,6 +259,8 @@ import
     zipError = ""
     emailError = ""
     phoneError = ""
+    passwordError = ""
+    ch = ""
 
   try:
     email = ctx.cookies["email"]
@@ -272,9 +276,6 @@ import
     productName = ""
     quantity = 0
 
-  if email != "":
-    productCount = micsCartProductCount(email, password)
-
   # if productName == "" and email == "":
     # ctx.redirect("/login")
 
@@ -287,75 +288,82 @@ import
     zip = cookies["c_postal_zip"]
     email1 = cookies["c_email_address"]
     phone = cookies["c_phone"]
+    password1: string
+
+  echo cookies
+
+  try:
+    password1 = cookies["password"]
+  except:
+    password1 = ""
 
   if country == "": countryError = "Country is Required"
-
   if firstName == "": firstNameError = "First Name is Required"
-
   if lastName == "": lastNameError = "Last Name is Required"
-
   if address == "": addressError = "Address is Required"
-
   if state == "": stateError = "State is Required"
-
   if zip == "": zipError = "Zip is Required"
-
   if email1 == "": emailError = "Email is Required"
-
   if phone == "": phoneError = "Phone is Required"
 
-  # if countryError == "" and firstNameError == "" and lastNameError == "" and addressError == "" and stateError == "" and zipError == "" and emailError == "" and phoneError == "":
-  #   var
-  #     userId = db.getUserId(email, password)
-  #     cart = db.getUserCart(userId)
-  #     order: Order
+  if email != "":
+    productCount = micsCartProductCount(email, password)
 
-  #   order.userId = userId
-  #   order.country = country
-  #   order.firstName = firstName
-  #   order.lastName = lastName
-  #   order.address = address
-  #   order.state = state
-  #   order.zip = zip
-  #   order.email = email1
-  #   order.phone = phone
-
-  #   db.createOrder(order)
-
-  #   for c, d in cart:
-  #     var product = db.getProductById(d.productId)
-  #     products.add(product)
-
-  #   db.clearCart(userId)
-
-  #   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
-
-  # else:
-  #   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
-
-  if productName != "":
-    var
-      product: Products
-      ca: Cart
-
-    product.id = 1
-    product.name = productName
-    product.price = db.getPriceByProductName(productName)
-    ca.quantity = quantity
-    products.add(product)
-    cart.add(ca)
-
-  else:
+  if countryError == "" and firstNameError == "" and lastNameError == "" and addressError == "" and stateError == "" and zipError == "" and emailError == "" and phoneError == "":
     var
       userId = db.getUserId(email, password)
-    cart = db.getUserCart(userId)
-      
+      cart = db.getUserCart(userId)
+      order: Orders
+      user: User
+
+    order.userId = userId
+    order.country = country
+    order.address = address
+    order.state = state
+    order.postalCode = zip
+    order.phoneNumber = phone
+
+    user.firstName = firstName
+    user.lastName = lastName
+    user.email = email1
+
+    if email == "":
+      user.password = password1
+      user.accessLevel = 1
+      db.createPost(user)
+      db.clearCart(userId)
+
+    var _ = db.createOrder(order)
+
     for c, d in cart:
       var product = db.getProductById(d.productId)
-      echo product
       products.add(product)
 
-  compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+    compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
+
+  else:
+    if productName != "":
+      var
+        product: Products
+        ca: Cart
+
+      product.id = 1
+      product.name = productName
+      product.price = db.getPriceByProductName(productName)
+      ca.quantity = quantity
+      products.add(product)
+      cart.add(ca)
+
+    else:
+      var
+        userId = db.getUserId(email, password)
+      cart = db.getUserCart(userId)
+        
+      for c, d in cart:
+        var product = db.getProductById(d.productId)
+        products.add(product)
+
+    compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/contact" -> get:
   
