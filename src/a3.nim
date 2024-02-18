@@ -261,6 +261,9 @@ import
     phoneError = ""
     passwordError = ""
     ch = ""
+  echo "hi"
+  echo ctx.urlForm
+  echo "bye"
 
   try:
     email = ctx.cookies["email"]
@@ -453,10 +456,18 @@ import
     password = ""
 
   if email == "":
-    echo "No cookie found."
+    ctx.redirect("/login")
   else:
     products = micsGetProducts(email, password)
-    echo "Cookie found."
+    
+    ctx &= initCookie("c_country", "")
+    ctx &= initCookie("c_fname", "")
+    ctx &= initCookie("c_lname", "")
+    ctx &= initCookie("c_address", "")
+    ctx &= initCookie("c_state_country", "")
+    ctx &= initCookie("c_postal_zip", "")
+    ctx &= initCookie("c_email_address", "")
+    ctx &= initCookie("c_phone", "")
     
   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
 

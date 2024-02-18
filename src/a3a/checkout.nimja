@@ -351,6 +351,23 @@
   </div>
   <script>
 
+    document.getElementById("b3").onclick = function() {
+
+      document.cookie = "c_country="+document.getElementById("c_country").value;
+      document.cookie = "c_fname="+document.getElementById("c_fname").value;
+      document.cookie = "c_lname="+document.getElementById("c_lname").value;
+      document.cookie = "c_address="+document.getElementById("c_address").value;
+      document.cookie = "c_state_country="+document.getElementById("c_state_country").value;
+      document.cookie = "c_postal_zip="+document.getElementById("c_postal_zip").value;
+      document.cookie = "c_email_address="+document.getElementById("c_email_address").value;
+      document.cookie = "c_phone="+document.getElementById("c_phone").value;
+      if (document.getElementById("c_create_account").checked) {
+        document.cookie = "c_create_account="+document.getElementById("c_create_account").value;
+      }
+
+      // window.location.href = '/thankyou';
+    }
+
     function continueShopping() {
       window.location.href = '/shop';
     }
