@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="/a3b/boxicons/boxicons.css">
 
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
     {% block css %} {% endblock %}
     
   </head>
