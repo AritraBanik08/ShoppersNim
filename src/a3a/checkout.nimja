@@ -77,11 +77,12 @@
           </div>
         </div>
       </div>
-      {% if ch == "" %}
+      {# {% if ch == "" %}
       <form action="/checkout" method="post" class="row">
       {% else %}
       <form action="/checkout?prod={{productName}}&quantity={{quantity}}" method="post" class="row">
-      {% endif %}
+      {% endif %} #}
+      <div class="row">
         <div class="col-md-6 mb-5 mb-md-0">
           <h2 class="h3 mb-3 text-black">Billing Details</h2>
           <div class="p-3 p-lg-5 border">
@@ -345,7 +346,8 @@
           </div>
 
         </div>
-      </form>
+      {# </form> #}
+      </div>
       <!-- </form> -->
     </div>
   </div>

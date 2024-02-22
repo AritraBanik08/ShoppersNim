@@ -242,6 +242,7 @@ import
 
 "/checkout" -> post:
   var
+    # res = Response()
     email: string
     password: string
     db = newDatabase()
@@ -284,6 +285,7 @@ import
 
   var
     country = cookies["c_country"]
+    # country = ctx.queryParams["c_country"]
     firstName = cookies["c_fname"]
     lastName = cookies["c_lname"]
     address = cookies["c_address"]
@@ -293,6 +295,7 @@ import
     phone = cookies["c_phone"]
     password1: string
 
+  # echo ctx.queryParams["c_country"]
   echo cookies
 
   try:
@@ -342,7 +345,7 @@ import
       var product = db.getProductById(d.productId)
       products.add(product)
 
-    compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
+    compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
   else:
     if productName != "":
@@ -442,34 +445,34 @@ import
 
   compileTemplateFile(getScriptDir() / "a3a" / "shop-single.nimja")
 
-"/thankyou" -> get:
-  var
-    email: string
-    password: string
-    products: seq[Products]
+# "/thankyou" -> get:
+#   var
+#     email: string
+#     password: string
+#     products: seq[Products]
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+#   try:
+#     email = ctx.cookies["email"]
+#     password = ctx.cookies["password"]
+#   except:
+#     email = ""
+#     password = ""
 
-  if email == "":
-    ctx.redirect("/login")
-  else:
-    products = micsGetProducts(email, password)
+#   if email == "":
+#     ctx.redirect("/login")
+#   else:
+#     products = micsGetProducts(email, password)
     
-    ctx &= initCookie("c_country", "")
-    ctx &= initCookie("c_fname", "")
-    ctx &= initCookie("c_lname", "")
-    ctx &= initCookie("c_address", "")
-    ctx &= initCookie("c_state_country", "")
-    ctx &= initCookie("c_postal_zip", "")
-    ctx &= initCookie("c_email_address", "")
-    ctx &= initCookie("c_phone", "")
+#     ctx &= initCookie("c_country", "")
+#     ctx &= initCookie("c_fname", "")
+#     ctx &= initCookie("c_lname", "")
+#     ctx &= initCookie("c_address", "")
+#     ctx &= initCookie("c_state_country", "")
+#     ctx &= initCookie("c_postal_zip", "")
+#     ctx &= initCookie("c_email_address", "")
+#     ctx &= initCookie("c_phone", "")
     
-  compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
+#   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
 
 "/login" -> get:
   var
@@ -512,8 +515,8 @@ import
     ctx &= initCookie("password", password)
 
     if quantity != 0:
-      ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
-      # ctx.redirect(fmt"/checkout?prod={productName}&quantity={quantity}")
+      # ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
+      ctx.redirect(fmt"/checkout?prod={productName}&quantity={quantity}")
     else:
 
       ctx.redirect("/")
