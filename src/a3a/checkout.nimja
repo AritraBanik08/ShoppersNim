@@ -108,10 +108,16 @@
                 <label class="text-danger">{{firstNameError}}</label>
                 <input type="text" class="form-control" id="c_fname" name="c_fname">
               </div>
-              <div class="col-md-6">
+              <div
+                class="col-md-6"
+                hx-target="this"
+                hx-swap="outerHTML"
+              >
                 <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                <label class="text-danger">{{lastNameError}}</label>
-                <input type="text" class="form-control" id="c_lname" name="c_lname">
+                <input type="text" class="form-control" id="c_lname"
+                  hx-post="/lname"
+                  name="c_lname"
+                >
               </div>
             </div>
 

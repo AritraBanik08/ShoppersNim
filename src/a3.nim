@@ -5,7 +5,7 @@ import
   nimja/parser,
   strutils,
   strformat,
-  ./a3pkg/[models, mics],
+  ./a3pkg/[models, mics, htmx],
   ./a3c/[products, users, cart, orders]
 
 "/" -> [get, post]:
@@ -280,12 +280,8 @@ import
     productName = ""
     quantity = 0
 
-  # if productName == "" and email == "":
-    # ctx.redirect("/login")
-
   var
     country = cookies["c_country"]
-    # country = ctx.queryParams["c_country"]
     firstName = cookies["c_fname"]
     lastName = cookies["c_lname"]
     address = cookies["c_address"]
@@ -295,7 +291,6 @@ import
     phone = cookies["c_phone"]
     password1: string
 
-  # echo ctx.queryParams["c_country"]
   echo cookies
 
   try:
@@ -371,6 +366,18 @@ import
 
     compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
+"/lname" -> post:
+  var lname = ctx.urlForm["c_lname"]
+  echo lname
+  var val: Validity
+  if lname == "":
+    val.message = "Last Name is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendLastName(lname, val)
+
 "/contact" -> get:
   
   var
@@ -445,34 +452,34 @@ import
 
   compileTemplateFile(getScriptDir() / "a3a" / "shop-single.nimja")
 
-# "/thankyou" -> get:
-#   var
-#     email: string
-#     password: string
-#     products: seq[Products]
+"/thankyou" -> get:
+  var
+    email: string
+    password: string
+    products: seq[Products]
 
-#   try:
-#     email = ctx.cookies["email"]
-#     password = ctx.cookies["password"]
-#   except:
-#     email = ""
-#     password = ""
+  try:
+    email = ctx.cookies["email"]
+    password = ctx.cookies["password"]
+  except:
+    email = ""
+    password = ""
 
-#   if email == "":
-#     ctx.redirect("/login")
-#   else:
-#     products = micsGetProducts(email, password)
+  if email == "":
+    ctx.redirect("/login")
+  else:
+    products = micsGetProducts(email, password)
     
-#     ctx &= initCookie("c_country", "")
-#     ctx &= initCookie("c_fname", "")
-#     ctx &= initCookie("c_lname", "")
-#     ctx &= initCookie("c_address", "")
-#     ctx &= initCookie("c_state_country", "")
-#     ctx &= initCookie("c_postal_zip", "")
-#     ctx &= initCookie("c_email_address", "")
-#     ctx &= initCookie("c_phone", "")
+    ctx &= initCookie("c_country", "")
+    ctx &= initCookie("c_fname", "")
+    ctx &= initCookie("c_lname", "")
+    ctx &= initCookie("c_address", "")
+    ctx &= initCookie("c_state_country", "")
+    ctx &= initCookie("c_postal_zip", "")
+    ctx &= initCookie("c_email_address", "")
+    ctx &= initCookie("c_phone", "")
     
-#   compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
+  compileTemplateFile(getScriptDir() / "a3a" / "thankyou.nimja")
 
 "/login" -> get:
   var
