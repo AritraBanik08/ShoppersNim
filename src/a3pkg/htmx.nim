@@ -7,7 +7,6 @@ type
     class*: string
 
 proc sendLastName*(lastName: string, input: Validity): string =
-
   result = fmt"""
     <div
       class="col-md-6"
@@ -20,6 +19,40 @@ proc sendLastName*(lastName: string, input: Validity): string =
         hx-post="lname"
         name="c_lname"
         value="{lastName}"
+      >
+    </div>
+  """
+
+proc sendFirstName*(firstName: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-6"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_lname" class="text-black">First Name <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_fname"
+        hx-post="/validation/fname"
+        name="c_fname"
+        value="{firstName}"
+      >
+    </div>
+  """
+
+proc sendAddress*(address: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-12"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_address"
+        hx-post="/validation/address"
+        name="c_address"
+        value="{address}"
       >
     </div>
   """

@@ -378,6 +378,30 @@ import
     val.class = "text-success"
   ctx.send sendLastName(lname, val)
 
+"/validation/fname" -> post:
+  var fname = ctx.urlForm["c_fname"]
+  echo fname
+  var val: Validity
+  if fname == "":
+    val.message = "First Name is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendFirstName(fname, val)
+
+"/validation/address" -> post:
+  var address = ctx.urlForm["c_address"]
+  echo address
+  var val: Validity
+  if address == "":
+    val.message = "Address is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendAddress(address, val)
+
 "/contact" -> get:
   
   var
