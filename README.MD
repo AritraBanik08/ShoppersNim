@@ -1,6 +1,6 @@
 # E-Commerce
 
-This is the repository for my e-commerce project.
+This is the repository for my e-commerce project made using the [Nim](https://nim-lang.org) Programming language, [SQLite3](https://www.sqlite.org/) and [HTMX](https://htmx.org/)
 
 ## Getting Started
 
