@@ -368,7 +368,6 @@ import
 
 "/lname" -> post:
   var lname = ctx.urlForm["c_lname"]
-  echo lname
   var val: Validity
   if lname == "":
     val.message = "Last Name is Required"
@@ -380,7 +379,6 @@ import
 
 "/validation/fname" -> post:
   var fname = ctx.urlForm["c_fname"]
-  echo fname
   var val: Validity
   if fname == "":
     val.message = "First Name is Required"
@@ -392,7 +390,6 @@ import
 
 "/validation/address" -> post:
   var address = ctx.urlForm["c_address"]
-  echo address
   var val: Validity
   if address == "":
     val.message = "Address is Required"
@@ -401,6 +398,18 @@ import
     val.message = ""
     val.class = "text-success"
   ctx.send sendAddress(address, val)
+
+"/validation/state" -> post:
+  var state = ctx.urlForm["c_state_country"]
+  echo state
+  var val: Validity
+  if state == "":
+    val.message = "State is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendState(state, val)
 
 "/contact" -> get:
   

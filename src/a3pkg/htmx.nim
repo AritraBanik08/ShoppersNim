@@ -56,3 +56,20 @@ proc sendAddress*(address: string, input: Validity): string =
       >
     </div>
   """
+
+proc sendState*(state: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-6"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_state" class="text-black">State <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_state"
+        hx-post="/validation/state"
+        name="c_state"
+        value="{state}"
+      >
+    </div>
+  """
