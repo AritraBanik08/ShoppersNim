@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Prerequisites
 
-Must have [Nim](https://nim-lang.org) version 2.0.2 or higher installed.
+Must have [Nim](https://nim-lang.org) version 2.0.2 or higher as well as [SQLite3](https://www.sqlite.org/) must be installed.
 
 ## Dependencies
 
