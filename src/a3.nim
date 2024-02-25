@@ -185,7 +185,7 @@ import
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
-    countryError = ""
+    # countryError = ""
     # firstNameError = ""
     # lastNameError = ""
     # addressError = ""
@@ -249,20 +249,14 @@ import
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
-    cookies = ctx.cookies
-    countryError = ""
-    firstNameError = ""
-    lastNameError = ""
-    addressError = ""
-    stateError = ""
-    zipError = ""
-    emailError = ""
-    phoneError = ""
-    # passwordError = ""
-    # ch = ""
+    form = ctx.urlForm
+    val: Validity
+    validity = initTable[string, Validity]()
+
   echo "hi"
   echo ctx.urlForm
   echo "bye"
+  echo ctx.urlForm["c_fname"]
 
   try:
     email = ctx.cookies["email"]
@@ -279,36 +273,25 @@ import
     quantity = 0
 
   var
-    country = cookies["c_country"]
-    firstName = cookies["c_fname"]
-    lastName = cookies["c_lname"]
-    address = cookies["c_address"]
-    state = cookies["c_state_country"]
-    zip = cookies["c_postal_zip"]
-    email1 = cookies["c_email_address"]
-    phone = cookies["c_phone"]
+    country = form["c_country"]
+    firstName = form["c_fname"]
+    lastName = form["c_lname"]
+    address = form["c_address"]
+    state = form["c_state_country"]
+    zip = form["c_postal_zip"]
+    email1 = form["c_email_address"]
+    phone = form["c_phone"]
     password1: string
 
-  echo cookies
-
   try:
-    password1 = cookies["password"]
+    password1 = form["password"]
   except:
     password1 = ""
-
-  if country == "": countryError = "Country is Required"
-  if firstName == "": firstNameError = "First Name is Required"
-  if lastName == "": lastNameError = "Last Name is Required"
-  if address == "": addressError = "Address is Required"
-  if state == "": stateError = "State is Required"
-  if zip == "": zipError = "Zip is Required"
-  if email1 == "": emailError = "Email is Required"
-  if phone == "": phoneError = "Phone is Required"
 
   if email != "":
     productCount = micsCartProductCount(email, password)
 
-  if countryError == "" and firstNameError == "" and lastNameError == "" and addressError == "" and stateError == "" and zipError == "" and emailError == "" and phoneError == "":
+  if country != "" and firstName != "" and lastName != "" and address != "" and state != "" and zip != "" and email != "" and phone != "":
     var
       userId = db.getUserId(email, password)
       cart = db.getUserCart(userId)
@@ -338,9 +321,21 @@ import
       var product = db.getProductById(d.productId)
       products.add(product)
 
-    compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+    ctx.send(sendThankYou())
 
   else:
+    for a, b in form:
+      if form[a] == "":
+        val.name = ""
+        val.message = "Field is Required"
+        val.mark = "is-invalid"
+        validity[a] = val
+      else:
+        val.name = b
+        val.message = ""
+        val.mark = ""
+        validity[a] = val
+
     if productName != "":
       var
         product: Products
@@ -362,7 +357,7 @@ import
         var product = db.getProductById(d.productId)
         products.add(product)
 
-    compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
+    ctx.send(sendCheckOut(validity, totalPriceHTML(products, cart)))
 
 "/lname" -> post:
   var lname = ctx.urlForm["c_lname"]
@@ -435,11 +430,9 @@ import
   var val: Validity
   if phone == "":
     val.message = "Phone is Required"
-    val.class = "text-danger"
     val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
     val.mark = ""
   ctx.send sendPhone(phone, val)
 
