@@ -107,3 +107,20 @@ proc sendEmail*(email: string, input: Validity): string =
       >
     </div>
   """
+
+proc sendPhone*(phone: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-12"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_phone"
+        hx-post="/validation/phone"
+        name="c_phone"
+        value="{phone}"
+      >
+    </div>
+  """

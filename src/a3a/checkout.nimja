@@ -192,10 +192,18 @@
                   name="c_email_address"
                 >
               </div>
-              <div class="col-md-6">
+              <div
+                class="col-md-6"
+                hx-target="this"
+                hx-swap="outerHTML"
+              >
                 <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                <label class="text-danger">{{phoneError}}</label>
-                <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
+                {# <label class="text-danger">{{phoneError}}</label> #}
+                <input type="text" class="form-control" id="c_phone"
+                  hx-post="/validation/phone"
+                  name="c_phone"
+                  placeholder="Phone Number"
+                >
               </div>
             </div>
 

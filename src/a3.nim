@@ -412,7 +412,6 @@ import
 
 "/validation/zip" -> post:
   var zip = ctx.urlForm["c_postal_zip"]
-  echo zip
   var val: Validity
   if zip == "":
     val.message = "Zip is Required"
@@ -432,6 +431,17 @@ import
     val.message = ""
     val.class = "text-success"
   ctx.send sendEmail(email, val)
+
+"/validation/phone" -> post:
+  var phone = ctx.urlForm["c_phone"]
+  var val: Validity
+  if phone == "":
+    val.message = "Phone is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendPhone(phone, val)
 
 "/contact" -> get:
   
