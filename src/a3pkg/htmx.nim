@@ -66,10 +66,27 @@ proc sendState*(state: string, input: Validity): string =
     >
       <label for="c_state" class="text-black">State <span class="text-danger">*</span></label>
       <label class="{input.class}">{input.message}</label>
-      <input type="text" class="form-control" id="c_state"
+      <input type="text" class="form-control" id="c_state_country"
         hx-post="/validation/state"
-        name="c_state"
+        name="c_state_country"
         value="{state}"
+      >
+    </div>
+  """
+
+proc sendZip*(zip: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-6"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_postal_zip"
+        hx-post="/validation/zip"
+        name="c_postal_zip"
+        value="{zip}"
       >
     </div>
   """

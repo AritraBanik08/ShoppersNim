@@ -165,10 +165,18 @@
                   name="c_state_country"
                 >
               </div>
-              <div class="col-md-6">
+
+              <div
+                class="col-md-6"
+                hx-target="this"
+                hx-swap="outerHTML"
+              >
                 <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                <label class="text-danger">{{zipError}}</label>
-                <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                {# <label class="text-danger">{{zipError}}</label> #}
+                <input type="text" class="form-control" id="c_postal_zip"
+                  hx-post="/validation/zip"
+                  name="c_postal_zip"
+                >
               </div>
             </div>
 

@@ -186,11 +186,11 @@ import
     products: seq[Products]
     productCount = 0
     countryError = ""
-    firstNameError = ""
-    lastNameError = ""
-    addressError = ""
-    stateError = ""
-    zipError = ""
+    # firstNameError = ""
+    # lastNameError = ""
+    # addressError = ""
+    # stateError = ""
+    # zipError = ""
     emailError = ""
     phoneError = ""
     ch = ""
@@ -260,8 +260,8 @@ import
     zipError = ""
     emailError = ""
     phoneError = ""
-    passwordError = ""
-    ch = ""
+    # passwordError = ""
+    # ch = ""
   echo "hi"
   echo ctx.urlForm
   echo "bye"
@@ -401,7 +401,6 @@ import
 
 "/validation/state" -> post:
   var state = ctx.urlForm["c_state_country"]
-  echo state
   var val: Validity
   if state == "":
     val.message = "State is Required"
@@ -410,6 +409,18 @@ import
     val.message = ""
     val.class = "text-success"
   ctx.send sendState(state, val)
+
+"/validation/zip" -> post:
+  var zip = ctx.urlForm["c_postal_zip"]
+  echo zip
+  var val: Validity
+  if zip == "":
+    val.message = "Zip is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendZip(zip, val)
 
 "/contact" -> get:
   
