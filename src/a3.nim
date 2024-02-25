@@ -191,8 +191,8 @@ import
     # addressError = ""
     # stateError = ""
     # zipError = ""
-    emailError = ""
-    phoneError = ""
+    # emailError = ""
+    # phoneError = ""
     ch = ""
 
   try:
@@ -235,14 +235,12 @@ import
       
     for c, d in cart:
       var product = db.getProductById(d.productId)
-      echo product
       products.add(product)
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/checkout" -> post:
   var
-    # res = Response()
     email: string
     password: string
     db = newDatabase()
