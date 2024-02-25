@@ -253,11 +253,6 @@ import
     val: Validity
     validity = initTable[string, Validity]()
 
-  echo "hi"
-  echo ctx.urlForm
-  echo "bye"
-  echo ctx.urlForm["c_fname"]
-
   try:
     email = ctx.cookies["email"]
     password = ctx.cookies["password"]
