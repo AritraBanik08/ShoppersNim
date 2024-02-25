@@ -422,6 +422,17 @@ import
     val.class = "text-success"
   ctx.send sendZip(zip, val)
 
+"/validation/email" -> post:
+  var email = ctx.urlForm["c_email_address"]
+  var val: Validity
+  if email == "":
+    val.message = "Email is Required"
+    val.class = "text-danger"
+  else:
+    val.message = ""
+    val.class = "text-success"
+  ctx.send sendEmail(email, val)
+
 "/contact" -> get:
   
   var

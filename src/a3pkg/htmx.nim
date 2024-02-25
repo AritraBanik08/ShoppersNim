@@ -90,3 +90,20 @@ proc sendZip*(zip: string, input: Validity): string =
       >
     </div>
   """
+
+proc sendEmail*(email: string, input: Validity): string =
+  result = fmt"""
+    <div
+      class="col-md-12"
+      hx-target="this"
+      hx-swap="outerHTML"
+    >
+      <label for="c_email" class="text-black">Email <span class="text-danger">*</span></label>
+      <label class="{input.class}">{input.message}</label>
+      <input type="text" class="form-control" id="c_email_address"
+        hx-post="/validation/email"
+        name="c_email_address"
+        value="{email}"
+      >
+    </div>
+  """
