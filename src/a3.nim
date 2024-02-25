@@ -369,10 +369,10 @@ import
   var val: Validity
   if lname == "":
     val.message = "Last Name is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendLastName(lname, val)
 
 "/validation/fname" -> post:
@@ -380,10 +380,10 @@ import
   var val: Validity
   if fname == "":
     val.message = "First Name is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendFirstName(fname, val)
 
 "/validation/address" -> post:
@@ -391,10 +391,10 @@ import
   var val: Validity
   if address == "":
     val.message = "Address is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendAddress(address, val)
 
 "/validation/state" -> post:
@@ -402,10 +402,10 @@ import
   var val: Validity
   if state == "":
     val.message = "State is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendState(state, val)
 
 "/validation/zip" -> post:
@@ -413,10 +413,10 @@ import
   var val: Validity
   if zip == "":
     val.message = "Zip is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendZip(zip, val)
 
 "/validation/email" -> post:
@@ -424,10 +424,10 @@ import
   var val: Validity
   if email == "":
     val.message = "Email is Required"
-    val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
-    val.class = "text-success"
+    val.mark = ""
   ctx.send sendEmail(email, val)
 
 "/validation/phone" -> post:
@@ -436,9 +436,11 @@ import
   if phone == "":
     val.message = "Phone is Required"
     val.class = "text-danger"
+    val.mark = "is-invalid"
   else:
     val.message = ""
     val.class = "text-success"
+    val.mark = ""
   ctx.send sendPhone(phone, val)
 
 "/contact" -> get:
