@@ -185,14 +185,6 @@ import
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
-    # countryError = ""
-    # firstNameError = ""
-    # lastNameError = ""
-    # addressError = ""
-    # stateError = ""
-    # zipError = ""
-    # emailError = ""
-    # phoneError = ""
     ch = ""
 
   try:
