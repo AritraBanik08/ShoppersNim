@@ -236,14 +236,15 @@ import
     email: string
     password: string
     db = newDatabase()
-    productName= ""
-    quantity = 0
+    productName: string
+    quantity: int
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
     form = ctx.urlForm
     val: Validity
     validity = initTable[string, Validity]()
+  echo 1
 
   try:
     email = ctx.cookies["email"]
@@ -259,6 +260,8 @@ import
     productName = ""
     quantity = 0
 
+  echo ctx.queryParams["prod"]
+
   var
     country = form["c_country"]
     firstName = form["c_fname"]
@@ -269,6 +272,8 @@ import
     email1 = form["c_email_address"]
     phone = form["c_phone"]
     password1: string
+  
+  echo 3
 
   try:
     password1 = form["password"]
@@ -277,6 +282,8 @@ import
 
   if email != "":
     productCount = micsCartProductCount(email, password)
+
+  echo 4
 
   if country != "" and firstName != "" and lastName != "" and address != "" and state != "" and zip != "" and email != "" and phone != "":
     var
@@ -311,6 +318,9 @@ import
     ctx.send(sendThankYou())
 
   else:
+    
+    echo 5
+
     for a, b in form:
       if form[a] == "":
         val.name = ""
@@ -323,19 +333,31 @@ import
         val.mark = ""
         validity[a] = val
 
-    if productName != "":
-      var
-        product: Products
-        ca: Cart
+    echo productName
 
-      product.id = 1
-      product.name = productName
-      product.price = db.getPriceByProductName(productName)
-      ca.quantity = quantity
-      products.add(product)
-      cart.add(ca)
+    # elif productName != "":
+    #   var
+    #     product: Products
+    #     ca: Cart
 
-    else:
+    #   product.id = 1
+    #   product.name = productName
+    #   product.price = db.getPriceByProductName(productName)
+    #   ca.quantity = quantity
+    #   products.add(product)
+    #   cart.add(ca)
+    #   ch = "d"
+
+    # else:
+    #   var
+    #     userId = db.getUserId(email, password)
+    #   cart = db.getUserCart(userId)
+        
+    #   for c, d in cart:
+    #     var product = db.getProductById(d.productId)
+    #     products.add(product)
+
+    if productName == "":
       var
         userId = db.getUserId(email, password)
       cart = db.getUserCart(userId)
@@ -343,6 +365,21 @@ import
       for c, d in cart:
         var product = db.getProductById(d.productId)
         products.add(product)
+
+    else:
+      var
+        product: Products
+        ca: Cart
+
+      product.id = 1
+      echo product
+      product.name = productName
+      echo product
+      product.price = db.getPriceByProductName(productName)
+      echo product
+      ca.quantity = quantity
+      products.add(product)
+      cart.add(ca)
 
     ctx.send(sendCheckOut(validity, totalPriceHTML(products, cart)))
 
@@ -538,6 +575,7 @@ import
   compileTemplateFile(getScriptDir() / "a3a" / "login.nimja")
 
 "/login" -> post:
+  echo ctx.queryParams
   var
     email = ctx.urlForm["email"]
     password = ctx.urlForm["password"]
