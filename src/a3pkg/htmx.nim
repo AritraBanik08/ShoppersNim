@@ -440,7 +440,7 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
 proc totalPriceHTML*(products: seq[Products], cart: seq[Cart]): string=
   var
     total: float = 0.0
-    fru = ""
+    fru: string
 
   for id, product in products:
     fru.add("""
