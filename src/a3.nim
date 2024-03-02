@@ -148,23 +148,18 @@ import
   
   var
     db = newDatabase()
-    productName= ""
-    quantity = 0
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
     ch = ""
     cookies = ctx.cookies
+    qParams = ctx.queryParams
 
     email = cookies.getOrDefault("email", "")
     password = cookies.getOrDefault("password", "")
 
-  try:
-    productName = ctx.queryParams["prod"]
-    quantity = parseInt(ctx.queryParams["quantity"])
-  except:
-    productName = ""
-    quantity = 0
+    productName = qParams.getOrDefault("prod", "")
+    quantity = parseInt(qParams.getOrDefault("quantity", "0"))
 
   if email != "":
     productCount = micsCartProductCount(email, password)
@@ -519,16 +514,10 @@ import
     emailError = ""
     passwordError = ""
 
-    productName: string
-    quantity: int
+    qParams = ctx.queryParams
 
-  try:
-    productName = ctx.queryParams["prod"]
-    quantity = parseInt(ctx.queryParams["quantity"])
-
-  except:
-      productName = ""
-      quantity = 0
+    productName = qParams.getOrDefault("prod", "")
+    quantity = parseInt(qParams.getOrDefault("quantity", "0"))
 
   if user == true:
 
