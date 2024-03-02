@@ -11,16 +11,11 @@ import
 "/" -> [get, post]:
 
   var
-    email: string
-    password: string
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     echo "No cookie found."
@@ -32,16 +27,11 @@ import
 "/about" -> get:
   
   var
-    email: string
-    password: string
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     echo "No cookie found."
@@ -54,16 +44,11 @@ import
 "/cart" -> get:
 
   var
-    email: string
-    password: string
     db = newDatabase()
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     ctx.redirect("/login")
@@ -83,17 +68,12 @@ import
 "/update-cart" -> get:
     
   var
-    email: string
-    password: string
     db = newDatabase()
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     ctx.redirect("/login")
@@ -117,16 +97,11 @@ import
 "/add-to-cart" -> get:
     
   var
-    email: string
-    password: string
     db = newDatabase()
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     ctx.redirect("/login")
@@ -149,16 +124,11 @@ import
 "/remove-from-cart" -> get:
   
   var
-    email: string
-    password: string
     db = newDatabase()
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     ctx.redirect("/login")
@@ -177,8 +147,6 @@ import
 "/checkout" -> get:
   
   var
-    email: string
-    password: string
     db = newDatabase()
     productName= ""
     quantity = 0
@@ -186,13 +154,10 @@ import
     products: seq[Products]
     productCount = 0
     ch = ""
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   try:
     productName = ctx.queryParams["prod"]
@@ -233,32 +198,21 @@ import
 
 "/checkout" -> post:
   var
-    email: string
-    password: string
     db = newDatabase()
-    productName: string
-    quantity: int
     cart: seq[Cart]
     products: seq[Products]
     productCount = 0
     form = ctx.urlForm
     val: Validity
     validity = initTable[string, Validity]()
-  echo 1
+    qParams = ctx.queryParams
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
-  try:
-    productName = ctx.queryParams["prod"]
-    quantity = parseInt(ctx.queryParams["quantity"])
-  except:
-    productName = ""
-    quantity = 0
+    productName = qParams.getOrDefault("prod", "")
+    quantity = parseInt(qParams.getOrDefault("quantity", "0"))
 
   echo ctx.queryParams["prod"]
 
@@ -463,18 +417,13 @@ import
 "/contact" -> get:
   
   var
-    email: string
-    password: string
     db = newDatabase()
 
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email != "" and password != "":
     var
@@ -490,19 +439,14 @@ import
 "/shop" -> get:
   
   var
-    email: string
-    password: string
     db = newDatabase()
 
     availableProducts = db.availableProducts()
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email != "" and password != "":
     products = micsGetProducts(email, password)
@@ -512,8 +456,6 @@ import
 "/shop-single" -> get:
   
   var
-    email: string
-    password: string
     db = newDatabase()
 
     productName = ctx.queryParams["prod"]
@@ -521,13 +463,10 @@ import
     product = db.getProductByName(productName)
 
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email != "" and password != "":
     products = micsGetProducts(email, password)
@@ -536,16 +475,11 @@ import
 
 "/thankyou" -> get:
   var
-    email: string
-    password: string
     products: seq[Products]
+    cookies = ctx.cookies
 
-  try:
-    email = ctx.cookies["email"]
-    password = ctx.cookies["password"]
-  except:
-    email = ""
-    password = ""
+    email = cookies.getOrDefault("email", "")
+    password = cookies.getOrDefault("password", "")
 
   if email == "":
     ctx.redirect("/login")
