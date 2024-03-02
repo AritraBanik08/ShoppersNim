@@ -229,10 +229,7 @@ import
   
   echo 3
 
-  try:
-    password1 = form["password"]
-  except:
-    password1 = ""
+  password1 = form.getOrDefault("password", "")
 
   if email != "":
     productCount = micsCartProductCount(email, password)
