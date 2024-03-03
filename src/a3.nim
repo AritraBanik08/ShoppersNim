@@ -208,8 +208,6 @@ import
     productName = form.getOrDefault("prod", "")
     quantity = parseInt(form.getOrDefault("quantity", "0"))
 
-  echo productName
-
   var
     country = form["c_country"]
     firstName = form["c_fname"]
@@ -220,15 +218,11 @@ import
     email1 = form["c_email_address"]
     phone = form["c_phone"]
     password1: string
-  
-  echo 3
 
   password1 = form.getOrDefault("password", "")
 
   if email != "":
     productCount = micsCartProductCount(email, password)
-
-  echo 4
 
   if country != "" and firstName != "" and lastName != "" and address != "" and state != "" and zip != "" and email != "" and phone != "":
     var
@@ -263,8 +257,6 @@ import
     ctx.send(sendThankYou())
 
   else:
-    
-    echo 5
 
     for a, b in form:
       if form[a] == "":
@@ -277,8 +269,6 @@ import
         val.message = ""
         val.mark = ""
         validity[a] = val
-
-    echo productName
 
     if productName == "":
       var
@@ -295,11 +285,8 @@ import
         ca: Cart
 
       product.id = 1
-      echo product
       product.name = productName
-      echo product
       product.price = db.getPriceByProductName(productName)
-      echo product
       ca.quantity = quantity
       products.add(product)
       cart.add(ca)
