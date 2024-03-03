@@ -144,7 +144,9 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
         hx-post="/checkout"
         hx-target="#change"
         class="row"
-      >
+      > 
+        <input type="hidden" name="prod" value="{val["prod"].name}">
+        <input type="hidden" name="quantity" value="{val["quantity"].name}">
         <div class="col-md-6 mb-5 mb-md-0">
           <h2 class="h3 mb-3 text-black">Billing Details</h2>
           <div class="p-3 p-lg-5 border">

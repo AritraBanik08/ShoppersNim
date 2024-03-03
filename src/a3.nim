@@ -200,16 +200,15 @@ import
     form = ctx.urlForm
     val: Validity
     validity = initTable[string, Validity]()
-    qParams = ctx.queryParams
     cookies = ctx.cookies
 
     email = cookies.getOrDefault("email", "")
     password = cookies.getOrDefault("password", "")
 
-    productName = qParams.getOrDefault("prod", "")
-    quantity = parseInt(qParams.getOrDefault("quantity", "0"))
+    productName = form.getOrDefault("prod", "")
+    quantity = parseInt(form.getOrDefault("quantity", "0"))
 
-  echo ctx.queryParams["prod"]
+  echo productName
 
   var
     country = form["c_country"]
