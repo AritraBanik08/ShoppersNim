@@ -281,28 +281,6 @@ import
 
     echo productName
 
-    # elif productName != "":
-    #   var
-    #     product: Products
-    #     ca: Cart
-
-    #   product.id = 1
-    #   product.name = productName
-    #   product.price = db.getPriceByProductName(productName)
-    #   ca.quantity = quantity
-    #   products.add(product)
-    #   cart.add(ca)
-    #   ch = "d"
-
-    # else:
-    #   var
-    #     userId = db.getUserId(email, password)
-    #   cart = db.getUserCart(userId)
-        
-    #   for c, d in cart:
-    #     var product = db.getProductById(d.productId)
-    #     products.add(product)
-
     if productName == "":
       var
         userId = db.getUserId(email, password)
