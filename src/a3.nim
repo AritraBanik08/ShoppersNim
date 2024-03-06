@@ -268,6 +268,8 @@ import
         val.name = b
         val.message = ""
         val.mark = ""
+        if form[a] == "1":
+          val.mark = "is-invalid"
         validity[a] = val
 
     if productName == "":

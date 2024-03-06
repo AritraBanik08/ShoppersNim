@@ -152,7 +152,7 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
           <div class="p-3 p-lg-5 border">
             <div class="form-group">
               <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-              <select id="c_country" class="form-control" name="c_country">
+              <select id="c_country" class="form-control {val["c_country"].mark}" name="c_country">
                 <option value="1">Select a country</option>    
                 <option value="2">bangladesh</option>    
                 <option value="3">Algeria</option>    
