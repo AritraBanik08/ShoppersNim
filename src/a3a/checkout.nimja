@@ -123,7 +123,7 @@
               >
                 <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="c_lname"
-                  hx-post="/lname"
+                  hx-post="/validation/lname"
                   name="c_lname"
                 >
               </div>

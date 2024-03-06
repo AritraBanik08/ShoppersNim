@@ -20,7 +20,7 @@ proc sendLastName*(lastName: string, input: Validity): string =
       <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
       <input type="text" class="form-control {input.mark}" id="c_lname"
         placeholder="{input.message}"
-        hx-post="lname"
+        hx-post="/validation/lname"
         name="c_lname"
         value="{lastName}"
       >
@@ -187,7 +187,7 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
                 <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control {val["c_lname"].mark}" id="c_lname"
                   placeholder="{val["c_lname"].message}"
-                  hx-post="/lname"
+                  hx-post="/validation/lname""
                   name="c_lname"
                   value="{val["c_lname"].name}"
                 >

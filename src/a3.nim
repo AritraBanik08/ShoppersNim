@@ -268,7 +268,7 @@ import
         val.name = b
         val.message = ""
         val.mark = ""
-        if form[a] == "1":
+        if form[a] == "1": # This checks if the country is selected or not
           val.mark = "is-invalid"
         validity[a] = val
 
@@ -295,7 +295,7 @@ import
 
     ctx.send(sendCheckOut(validity, totalPriceHTML(products, cart)))
 
-"/lname" -> post:
+"/validation/lname" -> post:
   var lname = ctx.urlForm["c_lname"]
   var val: Validity
   if lname == "":
