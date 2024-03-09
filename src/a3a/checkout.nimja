@@ -90,7 +90,6 @@
           <div class="p-3 p-lg-5 border">
             <div class="form-group">
               <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-              {# <label class="text-danger">{{countryError}}</label> #}
               <select id="c_country" class="form-control" name="c_country">
                 <option value="1">Select a country</option>    
                 <option value="2">bangladesh</option>    
@@ -180,7 +179,6 @@
                 hx-swap="outerHTML"
               >
                 <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                {# <label class="text-danger">{{emailError}}</label> #}
                 <input type="text" class="form-control" id="c_email_address"
                   hx-post="/validation/email"
                   name="c_email_address"
@@ -192,7 +190,6 @@
                 hx-swap="outerHTML"
               >
                 <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                {# <label class="text-danger">{{phoneError}}</label> #}
                 <input type="text" class="form-control" id="c_phone"
                   hx-post="/validation/phone"
                   name="c_phone"

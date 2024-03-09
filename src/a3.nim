@@ -145,6 +145,7 @@ import
     ctx.redirect("/cart")
 
 "/checkout" -> get:
+  echo "get"
   
   var
     db = newDatabase()
@@ -192,6 +193,7 @@ import
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
 "/checkout" -> post:
+  echo "post"
   var
     db = newDatabase()
     cart: seq[Cart]
