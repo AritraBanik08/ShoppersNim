@@ -152,7 +152,10 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
           <div class="p-3 p-lg-5 border">
             <div class="form-group">
               <label for="c_country" class="text-black">Country <span class="text-danger">*</span></label>
-              <select id="c_country" class="form-control {val["c_country"].mark}" name="c_country">
+              <select id="c_country" class="form-control {val["c_country"].mark}"
+                hx-post="/validation/country"
+                name="c_country"
+              >
                 <option value="1">Select a country</option>    
                 <option value="2">bangladesh</option>    
                 <option value="3">Algeria</option>    
@@ -481,4 +484,29 @@ proc sendThankYou*(): string=
         </div>
       </div>
     </div>
+  """
+
+proc sendCountry*(country: string, input: Validity): string =
+
+  var rep = """
+      <option value="1">Select a country</option>    
+      <option value="2">bangladesh</option>    
+      <option value="3">Algeria</option>    
+      <option value="4">Afghanistan</option>    
+      <option value="5">Ghana</option>    
+      <option value="6">Albania</option>    
+      <option value="7">Bahrain</option>    
+      <option value="8">Colombia</option>    
+      <option value="9">Dominican Republic</option>    
+      <option value="10">India</option>"""
+
+  var rep1 = rep.replace(fmt"{country}", fmt"{country} selected")
+
+  result = fmt"""
+    <select id="c_country" class="form-control {input.mark}"
+      hx-post="/validation/country"
+      name="c_country"
+    >
+      {rep1}
+    </select>
   """

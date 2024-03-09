@@ -372,6 +372,17 @@ import
     val.mark = ""
   ctx.send sendPhone(phone, val)
 
+"/validation/country" -> post:
+  var country = ctx.urlForm["c_country"]
+  var val: Validity
+  if country == "1":
+    val.message = ""
+    val.mark = "is-invalid"
+  else:
+    val.message = ""
+    val.mark = ""
+  ctx.send sendCountry(country, val)
+
 "/contact" -> get:
   
   var
