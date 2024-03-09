@@ -143,7 +143,7 @@ import
 
     ctx.redirect("/cart")
 
-"/checkout" -> [get, post]:
+"/cart/checkout" -> [get, post]:
   var
     db = newDatabase()
     cart: seq[Cart] = newSeq[Cart]()  # Initialize empty cart
@@ -501,7 +501,7 @@ import
     ctx &= initCookie("password", password)
 
     if quantity != 0:
-      ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
+      ctx.redirect("/cart/checkout?prod=" & productName & "&quantity=" & $quantity)
     else:
 
       ctx.redirect("/")
