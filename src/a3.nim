@@ -4,7 +4,6 @@ import
   os,
   nimja/parser,
   strutils,
-  strformat,
   ./a3pkg/[models, mics, htmx],
   ./a3c/[products, users, cart, orders]
 
@@ -162,13 +161,6 @@ import
 
   if email != "":
     productCount = micsCartProductCount(email, password)
-    # var
-    #   userId = db.getUserId(email, password)
-    # if userId != 0:  # Check if user ID is valid (not 0)
-    #   cart = db.getUserCart(userId)
-    #   for c, d in cart:
-    #     var product = db.getProductById(d.productId)
-    #     products.add(product)
 
   if productName == "" and email == "":
     ctx.redirect("/login")
@@ -187,7 +179,6 @@ import
     ch = "d"
 
   else:
-    # ctx.redirect("/login")
     var
       userId = db.getUserId(email, password)
     cart = db.getUserCart(userId)
