@@ -144,12 +144,10 @@ import
 
     ctx.redirect("/cart")
 
-"/checkout" -> get:
-  echo "get"
-  
+"/checkout" -> [get, post]:
   var
     db = newDatabase()
-    cart: seq[Cart]
+    cart: seq[Cart] = newSeq[Cart]()  # Initialize empty cart
     products: seq[Products]
     productCount = 0
     ch = ""
@@ -164,11 +162,18 @@ import
 
   if email != "":
     productCount = micsCartProductCount(email, password)
+    # var
+    #   userId = db.getUserId(email, password)
+    # if userId != 0:  # Check if user ID is valid (not 0)
+    #   cart = db.getUserCart(userId)
+    #   for c, d in cart:
+    #     var product = db.getProductById(d.productId)
+    #     products.add(product)
 
   if productName == "" and email == "":
     ctx.redirect("/login")
 
-  elif productName != "":
+  if productName != "":
     var
       product: Products
       ca: Cart
@@ -182,6 +187,7 @@ import
     ch = "d"
 
   else:
+    # ctx.redirect("/login")
     var
       userId = db.getUserId(email, password)
     cart = db.getUserCart(userId)
@@ -192,7 +198,7 @@ import
 
   compileTemplateFile(getScriptDir() / "a3a" / "checkout.nimja")
 
-"/checkout" -> post:
+"/validation/checkout" -> post:
   echo "post"
   var
     db = newDatabase()
@@ -504,8 +510,7 @@ import
     ctx &= initCookie("password", password)
 
     if quantity != 0:
-      # ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
-      ctx.redirect(fmt"/checkout?prod={productName}&quantity={quantity}")
+      ctx.redirect("/checkout?prod=" & productName & "&quantity=" & $quantity)
     else:
 
       ctx.redirect("/")

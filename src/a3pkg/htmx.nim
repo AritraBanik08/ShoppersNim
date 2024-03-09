@@ -141,7 +141,7 @@ proc sendCheckOut*(val: Table[string, Validity], total: string): string =
       </div>
       <form
         hx-trigger="submit"
-        hx-post="/checkout"
+        hx-post="/validation/checkout"
         hx-target="#change"
         class="row"
       > 
