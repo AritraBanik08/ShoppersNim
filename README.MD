@@ -6,6 +6,8 @@ This is the repository for my e-commerce project made using the [Nim](https://ni
 
 Download links:
 
+SSH clone URL: ssh://git@github.com:AritraBanik08/ShoppersNim.git
+
 HTTPS clone URL: https://github.com/AritraBanik08/ShoppersNim.git
 
 
