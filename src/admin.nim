@@ -4,4 +4,6 @@ import
 
 proc admin*(ctx: Context): string=
 
-  compileTemplateFile(getScriptDir() / "a3a" / "admin" / "index.html")
+  result = "Namaste India"
+
+  # compileTemplateFile(getScriptDir() / "a3a" / "admin" / "index.html")
