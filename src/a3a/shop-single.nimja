@@ -202,7 +202,7 @@
 
     function checkOut() {
       var quantity = document.getElementById("quantity").value;
-      window.location.href = '/checkout'
+      window.location.href = '/cart/checkout'
         + '?prod={{productName}}&quantity='
         + quantity;
     }
