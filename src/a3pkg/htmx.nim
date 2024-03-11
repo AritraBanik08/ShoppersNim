@@ -129,13 +129,13 @@ proc sendPhone*(phone: string, input: Validity): string =
     </div>
   """
 
-proc sendCheckOut*(val: Table[string, Validity], total: string): string =
+proc sendCheckOut*(val: Table[string, Validity], total: string, productName: string, quantity: int): string =
   result = fmt"""
     <div class="container" id="change">
       <div class="row mb-5">
         <div class="col-md-12">
           <div class="border p-4 rounded" role="alert">
-            Returning customer? <a href="/login?prod={{productName}}&quantity={{quantity}}" onclick="login()">Click here</a> to login
+            Returning customer? <a href="/login?prod={productName}&quantity={quantity}" onclick="login()">Click here</a> to login
           </div>
         </div>
       </div>

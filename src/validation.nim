@@ -107,7 +107,7 @@ proc validationCheckOut*(ctx: Context) =
       products.add(product)
       cart.add(ca)
 
-    ctx.send(sendCheckOut(validity, totalPriceHTML(products, cart)))
+    ctx.send(sendCheckOut(validity, totalPriceHTML(products, cart), productName, quantity))
 
 proc validationLName*(ctx: Context) =
   var lname = ctx.urlForm["c_lname"]
