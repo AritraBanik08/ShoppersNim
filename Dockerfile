@@ -12,4 +12,4 @@ COPY . .
 
 RUN nimble install -y
 
-ENTRYPOINT [ "nim", "c", "-r", "src/a3.nim" ]
+ENTRYPOINT [ "nim", "c", "-d:ssl", "-r", "src/a3.nim" ]
