@@ -1,6 +1,9 @@
 import db_connector/db_sqlite
 
-import ../a3pkg/models
+import
+  strutils,
+  ../a3pkg/models,
+  ./users
 
 proc close*(db: DbConn) =
   db.close()
@@ -31,3 +34,24 @@ proc createOrder*(db: DbConn, order:Orders): int64 =
 
 proc drop*(db: DbConn) =
   db.exec(sql"DROP TABLE IF EXISTS orders")
+
+proc getOrderAdmin*(db: DbConn): seq[User]=
+  var
+    row = db.getAllRows(sql"SELECT DISTINCT user_id FROM orders;")
+    users: seq[User]
+  for a, b in row:
+    var
+      u = db.getRow(sql"SELECT * FROM users WHERE id=?", b[0])
+      user: User
+      c = db.getUserOrdersAmount(parseInt(b[0]))
+
+    user.id = parseInt(u[0])
+    user.firstName = u[1]
+    user.lastName = u[2]
+    user.email = u[3]
+    user.totalQuantity = c[0]
+    user.totalPrice = c[1]
+
+    users.add(user)
+  
+  return users

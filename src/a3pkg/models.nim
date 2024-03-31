@@ -11,6 +11,8 @@ type
     createdAt*: DateTime
     updatedAt*: DateTime
     accessLevel*: int
+    totalQuantity*: int
+    totalPrice* : float
 
   Products* = object
     ## Product is the product model
