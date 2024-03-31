@@ -88,3 +88,6 @@ proc getPriceByProductName*(db: DbConn, name: string): float =
   ## getPriceByProductName returns the price of a product by its name
   var row = db.getRow(sql"SELECT price FROM products WHERE name = ?", name)
   return parseFloat(row[0])
+
+proc getProductIdByProductName*(db: DbConn, name: string): int=
+  result = parseInt(db.getValue(sql"SELECT id FROM products WHERE name=?", name))
