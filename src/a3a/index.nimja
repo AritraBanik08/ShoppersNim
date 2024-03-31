@@ -34,7 +34,9 @@
                     <span class="icon icon-person"></span>
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if user.accessLevel >= 2 %}
                     <a class="dropdown-item" href="/admin/dashboard">Dashboard</a>
+                    {% endif %}
                     <a class="dropdown-item" href="/logout">Logout</a>
                   </div>
                 </li>

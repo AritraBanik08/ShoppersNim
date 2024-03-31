@@ -71,11 +71,13 @@
   <div class="site-section">
     <div class="container" id="change">
       <div class="row mb-5">
+        {% if email == "" %}
         <div class="col-md-12">
           <div class="border p-4 rounded" role="alert">
             Returning customer? <a href="/login?prod={{productName}}&quantity={{quantity}}" onclick="login()">Click here</a> to login
           </div>
         </div>
+        {% endif %}
       </div>
       <form
         hx-trigger="submit"
@@ -328,6 +330,7 @@
                   <tbody>
                     {% var total: float = 0.0 %}
                     {% for (id, product) in products.pairs() %}
+                    <div><input type="hidden" name="product" value="{{product.id}}"></div>
                     <tr>
                       <td>{{product.name}} <strong class="mx-2">x</strong> {{toFloat(cart[id].quantity)}}</td>
                       <td>₹{{toFloat(cart[id].quantity)*product.price}}</td>
