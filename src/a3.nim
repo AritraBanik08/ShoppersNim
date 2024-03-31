@@ -1,7 +1,8 @@
 import
   mike,
   segfaults,
-  ./[admin, cart, about, index, checkout, validation, contact, shop, signup]
+  ./a3d/[admin, cart, about, index, checkout, contact, shop, signup],
+  ./a3pkg/validation
 
 "/" -> [get, post]: ctx.index()
 
@@ -35,8 +36,7 @@ import
 "/signup" -> get: ctx.getSignup()
 "/signup" -> post: ctx.postSignup()
 
-"/admin/dashboard" -> get:
-  ctx.admin()
+"/admin/dashboard" -> get: ctx.admin()
 
 servePublic("src/a3b", "/a3b")
 
