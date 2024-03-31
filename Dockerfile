@@ -1,5 +1,4 @@
 FROM nimlang/nim:2.0.2-alpine
-#FROM nimlang/nim:devel
 
 RUN apk add sqlite-dev
 
