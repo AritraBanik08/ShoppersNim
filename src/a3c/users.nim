@@ -57,3 +57,40 @@ proc getUser*(db: DbConn, email, password: string): User =
   user.accessLevel = parseInt(row[7])
 
   return user
+
+proc getUserOrdersAmount*(db: DbConn, userId: int): (int, float)=
+  echo userId
+  var
+    row = db.getAllRows(sql"SELECT * FROM orders WHERE user_id=?", userId)
+    totalQuantity = 0
+    totalPrice = 0.0
+  echo row
+  for b, c in row:
+    var
+      quantity = c[8]
+      row1 = db.getValue(sql"SELECT price FROM products WHERE id=?", c[7])
+  
+    totalQuantity = totalQuantity + parseInt(quantity)
+    totalPrice = totalPrice + parseFloat(quantity) * parseFloat(row1)
+  return (totalQuantity, totalPrice)
+
+proc getUserCartTable*(db: DbConn): seq[User]=
+  var
+    row = db.getAllRows(sql"SELECT * FROM users;")
+    users: seq[User]
+
+  for a, b in row:
+    var
+      c = db.getUserOrdersAmount(parseInt(b[0]))
+      user: User
+
+    user.id = parseInt(b[0])
+    user.firstName = b[1]
+    user.lastName = b[2]
+    user.email = b[3]
+    user.totalQuantity = c[0]
+    user.totalPrice = c[1]
+
+    users.add(user)
+
+  return users
