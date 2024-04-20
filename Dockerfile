@@ -1,4 +1,5 @@
 FROM nimlang/nim:2.0.2-alpine
+#FROM nimlang/nim:devel
 
 RUN apk add sqlite-dev
 
@@ -11,4 +12,4 @@ COPY . .
 
 RUN nimble install -y
 
-ENTRYPOINT [ "nim", "c", "-d:ssl", "-r", "src/a3.nim" ]
+ENTRYPOINT [ "nim", "c", "-r", "src/a3.nim" ]
