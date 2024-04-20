@@ -1,4 +1,7 @@
-import db_connector/db_sqlite, strutils, strtabs
+import
+  db_connector/db_sqlite,
+  strutils,
+  strtabs
 
 import ../a3pkg/models
 
