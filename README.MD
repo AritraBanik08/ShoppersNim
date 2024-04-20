@@ -6,9 +6,9 @@ This is the repository for my e-commerce project made using the [Nim](https://ni
 
 Download links:
 
-SSH clone URL: ssh://git@github.com:AritraBanik08/ShoppersNim.git
+SSH clone URL: ssh://git@gitea.com:cereci5049/Shoppers.git
 
-HTTPS clone URL: https://github.com/AritraBanik08/ShoppersNim.git
+HTTPS clone URL: https://gitea.com/cereci5049/Shoppers.git
 
 
 
