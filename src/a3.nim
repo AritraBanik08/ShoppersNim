@@ -37,6 +37,7 @@ import
 "/signup" -> post: ctx.postSignup()
 
 "/admin/dashboard" -> get: ctx.admin()
+"/admin/:id/show" -> get(id: int): ctx.adminShow(id)
 
 servePublic("src/a3b", "/a3b")
 
