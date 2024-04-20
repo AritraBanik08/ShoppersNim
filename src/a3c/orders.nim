@@ -2,8 +2,9 @@ import db_connector/db_sqlite
 
 import
   strutils,
+  times,
   ../a3pkg/models,
-  ./users
+  ./[users, products]
 
 proc close*(db: DbConn) =
   db.close()
@@ -55,3 +56,27 @@ proc getOrderAdmin*(db: DbConn): seq[User]=
     users.add(user)
   
   return users
+
+proc getOrders*(db: DbConn, userId: int): seq[Orders]=
+  var
+    rows = db.getAllRows(sql"SELECT * FROM orders WHERE user_id=?", userId)
+    orders: seq[Orders]
+
+  for id, row in rows:
+    var order: Orders
+    order.id = parseInt(row[0])
+    order.userId = parseInt(row[1])
+    order.country = row[2]
+    order.address = row[3]
+    order.state = row[4]
+    order.postalCode = row[5]
+    order.phoneNumber = row[6]
+    order.productId = parseInt(row[7])
+    order.quantity = parseInt(row[8])
+    order.createdAt = row[9]
+    # order.orderStatus =  
+    order.product = db.getProductById(order.productId)
+
+    orders.add(order)
+
+  return orders

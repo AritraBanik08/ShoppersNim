@@ -59,12 +59,11 @@ proc getUser*(db: DbConn, email, password: string): User =
   return user
 
 proc getUserOrdersAmount*(db: DbConn, userId: int): (int, float)=
-  echo userId
   var
     row = db.getAllRows(sql"SELECT * FROM orders WHERE user_id=?", userId)
     totalQuantity = 0
     totalPrice = 0.0
-  echo row
+  # echo row
   for b, c in row:
     var
       quantity = c[8]
