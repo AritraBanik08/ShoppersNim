@@ -47,7 +47,8 @@ type
     phoneNumber*: string
     productId*: int
     quantity*: int
-    createdAt*: DateTime
+    createdAt*: string
     updatedAt*: DateTime
     orderStatus*: string
     orderDate*: DateTime
+    product*: Products
