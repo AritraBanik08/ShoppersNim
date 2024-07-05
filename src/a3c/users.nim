@@ -93,3 +93,13 @@ proc getUserCartTable*(db: DbConn): seq[User]=
     users.add(user)
 
   return users
+
+proc getUserByID*(db: DbConn, id: int): User=
+  var row = db.getRow(sql"SELECT * FROM users WHERE id=?", id)
+ 
+  result.id = parseInt(row[0])
+  result.firstName = row[1]
+  result.lastName = row[2]
+  result.email = row[3]
+  result.password = row[4]
+  result.accessLevel = parseInt(row[7])
